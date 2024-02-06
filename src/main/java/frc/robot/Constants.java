@@ -18,8 +18,8 @@ public final class Constants {
      *
      * Should be measured from center to center.
      */
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.475;
-    public static final double DRIVETRAIN_TRACKLENGTH_METERS = 0.475;
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.635;  // 25 in
+    public static final double DRIVETRAIN_TRACKLENGTH_METERS = 0.508;  // 20 in
     public static final double DRIVE_THETA_OFFSET = Math.toDegrees(Math.atan(DRIVETRAIN_TRACKLENGTH_METERS/DRIVETRAIN_TRACKWIDTH_METERS));
     /**
      * The front-to-back distance between the drivetrain wheels.
@@ -59,4 +59,10 @@ public final class Constants {
     public static final double DRIVE_MOTOR_GEAR_RATIO = 8.14 / 1; // could potentially be 6.75:1 depending on if it is L1 of L2
                                                                   // see https://www.swervedrivespecialties.com/products/mk4-swerve-module?variant=39376675012721
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
+
+
+    // INTAKE CONSTANTS
+    public static final int LEFT_INTAKE_MOTOR_ID = 9;
+    public static final int RIGHT_INTAKE_MOTOR_ID = 10;
+    public static final double INTAKE_SPEED = .3;
 }

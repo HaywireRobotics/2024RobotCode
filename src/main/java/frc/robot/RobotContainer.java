@@ -8,8 +8,10 @@ import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.AutoFollowAprilTag;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.common.hardware.VisionLEDMode;
@@ -31,11 +33,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
   private final CommandXboxController m_controller = new CommandXboxController(0);
 
-  private final PhotonCamera m_camera = new PhotonCamera("banana");
-  // public final Camera m_limelightBanana = new Camera(m_networkTable, "OV5647", Constants.BANANA_POSE);
+  // private final PhotonCamera m_camera = new PhotonCamera("banana");
 
   public final DefaultDriveCommand defaultDriveCommand;
 
@@ -43,7 +45,7 @@ public class RobotContainer {
     defaultDriveCommand = new DefaultDriveCommand(m_drivetrainSubsystem, m_controller);
     m_drivetrainSubsystem.setDefaultCommand(defaultDriveCommand);
 
-    m_camera.setLED(VisionLEDMode.kOff);
+    // m_camera.setLED(VisionLEDMode.kOff);
 
     // Configure the trigger bindings
     configureBindings();
@@ -67,6 +69,9 @@ public class RobotContainer {
 
     m_controller.b().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(537); }));
     m_controller.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(953); }));
+
+    m_controller.rightBumper().onTrue(new IntakeCommand(m_intakeSubsystem, false));
+    m_controller.rightTrigger().onTrue(new IntakeCommand(m_intakeSubsystem));
   }
 
   public void disable() {
@@ -89,6 +94,8 @@ public class RobotContainer {
     //   new SwerveModuleState(537, Rotation2d.fromDegrees(180.0))
     // ).withTimeout(7);
 
-    return new AutoFollowAprilTag(m_drivetrainSubsystem, m_camera);
+    // return new AutoFollowAprilTag(m_drivetrainSubsystem, m_camera);
+
+    return new InstantCommand();
   }
 }
