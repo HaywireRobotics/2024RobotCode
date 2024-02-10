@@ -109,6 +109,11 @@ public class NEO {
         pidController.setIZone(kIZ);
         pidController.setFF(kFF);
     }
+    public void configurePIDFF(double kP, double kI, double kD) {
+        pidController.setP(kP);
+        pidController.setI(kI);
+        pidController.setD(kD);
+    }
 
     public void setOutputRange(double min, double max) {
         pidController.setOutputRange(min, max);

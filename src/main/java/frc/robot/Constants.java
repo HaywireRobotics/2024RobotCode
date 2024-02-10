@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.ser.std.SqlTimeSerializer;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -64,5 +66,23 @@ public final class Constants {
     // INTAKE CONSTANTS
     public static final int LEFT_INTAKE_MOTOR_ID = 9;
     public static final int RIGHT_INTAKE_MOTOR_ID = 10;
-    public static final double INTAKE_SPEED = .3;
-}
+    public static final double INTAKE_SPEED = 0.3;
+
+    // SHOOTER CONSTANTS
+    public static final int FEEDER_MOTOR_ID = 11;
+    public static final int SCREW_DRIVE_MOTOR_ID = 12;
+    public static final int LEFT_SHOOT_MOTOR_ID = 13;
+    public static final int RIGHT_SHOOT_MOTOR_ID = 14;
+
+    public static final double SHOOTER_KP = 0.00007;
+    public static final double SHOOTER_KI = 0.0;
+    public static final double SHOOTER_KD = 0.0;
+
+    public static final double SCREW_KP = 0.0;
+    public static final double SCREW_KI = 0.0;
+    public static final double SCREW_KD = 0.0;
+
+    public static final double FEEDER_SPEED = 0.3;
+    public static final double SCREW_DRIVE_GEAR_RATIO = 1.0;
+    public static final double MAX_SCREW_DRIVE_ROTATIONS = 50;
+  }
