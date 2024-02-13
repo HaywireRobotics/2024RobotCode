@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.wrappers.NEO;
@@ -42,10 +43,6 @@ public class ShooterSubsystem extends SubsystemBase {
     this.runFeeder(0.0);
   }
 
-  public double getScrewDriveRotations() {
-    return Constants.SCREW_DRIVE_GEAR_RATIO * screwDriveMotor.getPosition();
-  }
-
   public void runScrewDrive(double speed) {
     double rotations = this.getScrewDriveRotations();
     if (rotations <= 0 && speed < 0) { return; }
@@ -56,11 +53,33 @@ public class ShooterSubsystem extends SubsystemBase {
     screwDriveMotor.set(0.0);
   }
 
+  private double screwRotationsToRawRotations(double rotations) {
+    return rotations * Constants.SCREW_DRIVE_GEAR_RATIO;
+  }
+  private double inchesToScrewRotations(double inches) {
+    return inches / Constants.SCREW_ROTATIONS_PER_INCH;
+  }
+  private double inchesToRawRotations(double inches) {
+    return this.screwRotationsToRawRotations(this.inchesToScrewRotations(inches));
+  }
+
+  public double getScrewDriveRotations() {
+    return screwDriveMotor.getPosition() / Constants.SCREW_DRIVE_GEAR_RATIO;
+  }
+  public double getScrewDriveExtensionInches() {
+    return this.getScrewDriveRotations() * Constants.SCREW_ROTATIONS_PER_INCH;
+  }
+
+  public void setScrewDriveRaw(double rawRotations) {
+    screwDriveMotor.setPosition(rawRotations);
+  }
   public void setScrewDrive(double rotations) {
-    screwDriveMotor.setPosition(rotations);
+    if (rotations < 0 || rotations > Constants.MAX_SCREW_DRIVE_ROTATIONS) { return; }
+    screwDriveMotor.setPosition(this.screwRotationsToRawRotations(rotations));
   }
   public void setScrewDriveInches(double inches) {
-    screwDriveMotor.setPosition(inches/10);
+    if (inches < 0 || inches > Constants.MAX_SCREW_DRIVE_INCHES) { return; }
+    screwDriveMotor.setPosition(this.inchesToRawRotations(inches));
   }
 
   public void setShooterSpeed(double speed) {
@@ -79,5 +98,9 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    SmartDashboard.putNumber("Left Shooter Speed", leftShootMotor.getVelocity());
+    SmartDashboard.putNumber("Right Shooter Speed", rightShootMotor.getVelocity());
+    SmartDashboard.putNumber("Screw Drive Extension Inches", this.getScrewDriveExtensionInches());
   }
 }

@@ -78,13 +78,15 @@ public final class Constants {
     public static final double SHOOTER_KI = 0.0;
     public static final double SHOOTER_KD = 0.0;
 
-    public static final double SCREW_KP = 0.0;
-    public static final double SCREW_KI = 0.0;
-    public static final double SCREW_KD = 0.0;
+    public static final double SCREW_KP = 0.0048;
+    public static final double SCREW_KI = 0.0025;
+    public static final double SCREW_KD = 0.00001;
 
     public static final double FEEDER_SPEED = 0.3;
-    public static final double SCREW_DRIVE_GEAR_RATIO = 1.0;
-    public static final double MAX_SCREW_DRIVE_ROTATIONS = 50;
+    public static final double SCREW_DRIVE_GEAR_RATIO = 5/1;
+    public static final double SCREW_ROTATIONS_PER_INCH = 10;
+    public static final double MAX_SCREW_DRIVE_INCHES = 5;
+    public static final double MAX_SCREW_DRIVE_ROTATIONS = MAX_SCREW_DRIVE_INCHES * SCREW_ROTATIONS_PER_INCH;
 
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 15;
