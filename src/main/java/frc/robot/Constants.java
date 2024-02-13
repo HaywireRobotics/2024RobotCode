@@ -85,4 +85,13 @@ public final class Constants {
     public static final double FEEDER_SPEED = 0.3;
     public static final double SCREW_DRIVE_GEAR_RATIO = 1.0;
     public static final double MAX_SCREW_DRIVE_ROTATIONS = 50;
+
+    // CLIMBER CONSTANTS
+    public static final int LEFT_ARM_ID = 15;
+    public static final int RIGHT_ARM_ID = 16;
+
+    public static final double PULLEY_DIAMETER = 0.01905;
+    public static final double PULLEY_RADIUS = PULLEY_DIAMETER / 2;
+    public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI;
+    public static final double CLIMBER_GEAR_RATIO = 45/1;
   }

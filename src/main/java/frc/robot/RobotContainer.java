@@ -9,6 +9,7 @@ import frc.robot.commands.AutoFollowAprilTag;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -36,6 +37,7 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   private final CommandXboxController m_controller = new CommandXboxController(0);
 
