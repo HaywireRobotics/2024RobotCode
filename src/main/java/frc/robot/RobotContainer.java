@@ -39,14 +39,15 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
-  private final CommandXboxController m_controller = new CommandXboxController(0);
+  private final CommandXboxController m_driveController = new CommandXboxController(0);
+  private final CommandXboxController m_manipulatorController = new CommandXboxController(1);
 
   // private final PhotonCamera m_camera = new PhotonCamera("banana");
 
   public final DefaultDriveCommand defaultDriveCommand;
 
   public RobotContainer() {
-    defaultDriveCommand = new DefaultDriveCommand(m_drivetrainSubsystem, m_controller);
+    defaultDriveCommand = new DefaultDriveCommand(m_drivetrainSubsystem, m_driveController);
     m_drivetrainSubsystem.setDefaultCommand(defaultDriveCommand);
 
     // m_camera.setLED(VisionLEDMode.kOff);
@@ -65,17 +66,17 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    m_controller.y().onTrue(new InstantCommand(m_drivetrainSubsystem::toggleFieldCentricDrive));
-    m_controller.a().onTrue(new InstantCommand(m_drivetrainSubsystem::zeroHeading));
+    m_driveController.y().onTrue(new InstantCommand(m_drivetrainSubsystem::toggleFieldCentricDrive));
+    m_driveController.b().onTrue(new InstantCommand(m_drivetrainSubsystem::zeroHeading));
 
-    m_controller.leftBumper().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.incrementDriveSpeed(100); }));
-    m_controller.leftTrigger().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.incrementDriveSpeed(-100); }));
+    m_driveController.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(800); }));
+    m_driveController.a().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(2000); }));
 
-    m_controller.b().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(537); }));
-    m_controller.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(953); }));
+    m_driveController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem));
+    m_driveController.leftTrigger().onTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_controller.rightBumper().onTrue(new IntakeCommand(m_intakeSubsystem, false));
-    m_controller.rightTrigger().onTrue(new IntakeCommand(m_intakeSubsystem));
+    m_manipulatorController.leftTrigger().onTrue(new IntakeCommand(m_intakeSubsystem));
+    m_manipulatorController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem, true));
   }
 
   public void disable() {
