@@ -63,6 +63,26 @@ public class ShooterSubsystem extends SubsystemBase {
     return this.screwRotationsToRawRotations(this.inchesToScrewRotations(inches));
   }
 
+  // TODO: fix so that it adjusts for the fact that some of the screw drive is just shaft and not screw
+  // I promise the math is accurate, please don't touch -Eli
+  private double inchesToShooterAngle(double inches) {
+    double a = Math.sqrt(inches*inches + 1.9*1.9);
+    double b = Math.sqrt(4*4 + 7.5*7.5);
+    double c = 14;
+
+    double alpha = Math.acos((b*b + c*c - a*a) / (2*b*c));
+    double theta = 180 - Math.atan(7.5/4) - alpha;
+    return theta;
+  }
+  private double shooterAngleToInches(double angle) {
+    double b = Math.sqrt(4*4 + 7.5*7.5);
+    double c = 14;
+
+    double x = 2*b*c * Math.cos(180 - Math.atan(7.5/4) - angle);
+    double inches = Math.sqrt(b*b + c*c - 1.9*1.9 - x);
+    return inches;
+  }
+
   public double getScrewDriveRotations() {
     return screwDriveMotor.getPosition() / Constants.SCREW_DRIVE_GEAR_RATIO;
   }
