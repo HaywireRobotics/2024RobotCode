@@ -77,6 +77,7 @@ public final class Constants {
     public static final double SHOOTER_KI = 0.0;
     public static final double SHOOTER_KD = 0.0;
 
+    public static final double SHOOT_MARGIN_OF_ERROR = 50.0;
     public static final double FEEDER_SPEED = 0.3;
 
     // SCREW ACTUATOR CONSTANTS

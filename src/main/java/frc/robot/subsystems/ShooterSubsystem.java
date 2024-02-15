@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -16,7 +19,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private final NEO leftShootMotor;
   private final NEO rightShootMotor;
 
-  private double shootSpeed = 0.0;
+  private double setPoint = 0.0;
+  private final int pointsUntilReady = 75;
+  private List<Double> leftData = new ArrayList<Double>();
+  private List<Double> rightData = new ArrayList<Double>();
+  private double leftAverage = 0.0;
+  private double rightAverage = 0.0;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -30,7 +38,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setShooterSpeed(double speed) {
     leftShootMotor.setVelocity(speed);
     rightShootMotor.setVelocity(speed);
-    shootSpeed = speed;
+    setPoint = speed;
   }
   public void runShooterPercent(double percent) {
     leftShootMotor.set(percent);
@@ -40,9 +48,45 @@ public class ShooterSubsystem extends SubsystemBase {
     this.runShooterPercent(0.0);
   }
 
+  public boolean isReady() {
+    return isReadyLeft() && isReadyRight();
+  }
+  public boolean isReadyLeft() {
+    return isWithinMargin(leftAverage, setPoint, Constants.SHOOT_MARGIN_OF_ERROR) &&
+           isWithinMargin(leftAverage, leftShootMotor.getVelocity(), Constants.SHOOT_MARGIN_OF_ERROR);
+  }
+  public boolean isReadyRight() {
+    return isWithinMargin(rightAverage, setPoint, Constants.SHOOT_MARGIN_OF_ERROR) &&
+           isWithinMargin(rightAverage, rightShootMotor.getVelocity(), Constants.SHOOT_MARGIN_OF_ERROR);
+  }
+  private boolean isWithinMargin(double value, double goal, double margin) {
+    return value >= goal - margin && value <= goal + margin;
+  }
+
+  private final List<Double> addDatapoint(List<Double> list, Double datapoint) {
+    list.add(datapoint.doubleValue());
+    if (list.size() <= this.pointsUntilReady) {
+       return list;
+    } else {
+       list.remove(0);
+       return list;
+    }
+  }
+  private final double calculateAverage(List<Double> list) {
+    if (list.isEmpty()) { return 0.0; }
+    double sum = 0.0;
+    for (Double value : list) {
+      sum += value;
+    }
+    return sum / list.size();
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    addDatapoint(leftData, leftShootMotor.getVelocity());
+    addDatapoint(rightData, rightShootMotor.getVelocity());
+    leftAverage = calculateAverage(leftData);
+    rightAverage = calculateAverage(rightData);
 
     SmartDashboard.putNumber("Left Shooter Speed", leftShootMotor.getVelocity());
     SmartDashboard.putNumber("Right Shooter Speed", rightShootMotor.getVelocity());

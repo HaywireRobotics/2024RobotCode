@@ -10,6 +10,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShootPercentCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -84,6 +85,7 @@ public class RobotContainer {
     m_manipulatorController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem, true));
 
     m_manipulatorController.a().onTrue(new FeedCommand(m_feederSubsystem));
+    m_manipulatorController.rightTrigger().onTrue(new ShootPercentCommand(m_shooterSubsystem, 0.75));
   }
 
   public void disable() {
