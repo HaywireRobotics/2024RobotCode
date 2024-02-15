@@ -70,7 +70,6 @@ public final class Constants {
 
     // SHOOTER CONSTANTS
     public static final int FEEDER_MOTOR_ID = 11;
-    public static final int SCREW_DRIVE_MOTOR_ID = 12;
     public static final int LEFT_SHOOT_MOTOR_ID = 13;
     public static final int RIGHT_SHOOT_MOTOR_ID = 14;
 
@@ -78,15 +77,19 @@ public final class Constants {
     public static final double SHOOTER_KI = 0.0;
     public static final double SHOOTER_KD = 0.0;
 
+    public static final double FEEDER_SPEED = 0.3;
+
+    // SCREW ACTUATOR CONSTANTS
+    public static final int SCREW_MOTOR_ID = 12;
+
     public static final double SCREW_KP = 0.0048;
     public static final double SCREW_KI = 0.0025;
     public static final double SCREW_KD = 0.00001;
 
-    public static final double FEEDER_SPEED = 0.3;
-    public static final double SCREW_DRIVE_GEAR_RATIO = 5/1;
+    public static final double SCREW_GEAR_RATIO = 5/1;
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
-    public static final double MAX_SCREW_DRIVE_INCHES = 5;
-    public static final double MAX_SCREW_DRIVE_ROTATIONS = MAX_SCREW_DRIVE_INCHES * SCREW_ROTATIONS_PER_INCH;
+    public static final double MAX_SCREW_INCHES = 5;
+    public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
 
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 15;

@@ -12,7 +12,9 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ScrewSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 import org.photonvision.PhotonCamera;
@@ -37,6 +39,8 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final FeederSubsystem m_feederSubsystem = new FeederSubsystem();
+  private final ScrewSubsystem m_screwSubsystem = new ScrewSubsystem();
   private final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);
