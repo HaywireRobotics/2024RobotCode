@@ -8,6 +8,7 @@ import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.AutoFollowAprilTag;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -81,6 +82,8 @@ public class RobotContainer {
 
     m_manipulatorController.leftTrigger().onTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem, true));
+
+    m_manipulatorController.a().onTrue(new FeedCommand(m_feederSubsystem));
   }
 
   public void disable() {
