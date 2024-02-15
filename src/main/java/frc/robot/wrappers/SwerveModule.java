@@ -1,7 +1,14 @@
 package frc.robot.wrappers;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfigurator;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+
+// import com.ctre.phoenix6.sensors.AbsoluteSensorRange;
+// import com.ctre.phoenix6.sensors.AbsoluteSensorRange;
+// import com.ctre.phoenix5.sensors.CANcoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -38,7 +45,7 @@ public class SwerveModule {
     private final NEO rotationMotor;
     private final NEO driveMotor;
 
-    private final CANCoder rotationEncoder;
+    private final CANcoder rotationEncoder;
 
     /* Odometry */
     private double rotationAngle;
@@ -48,10 +55,10 @@ public class SwerveModule {
     private Vector deltaPosition = new Vector(0., 0.);
 
     public SwerveModule(int driveID, int rotationID, int encoderID, double offset, boolean reverseDrive) {
-        this(new NEO(driveID, reverseDrive), new NEO(rotationID), new CANCoder(encoderID), offset);
+        this(new NEO(driveID, reverseDrive), new NEO(rotationID), new CANcoder(encoderID), offset);
     }
 
-    public SwerveModule(NEO driveMotor, NEO rotationMotor, CANCoder rotationEncoder, double offset) {
+    public SwerveModule(NEO driveMotor, NEO rotationMotor, CANcoder rotationEncoder, double offset) {
         this.rotationMotor = rotationMotor;
         this.driveMotor = driveMotor;
         this.rotationEncoder = rotationEncoder;
@@ -61,7 +68,10 @@ public class SwerveModule {
         this.driveMotor.configurePIDFF(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KIZ, DRIVE_KFF);
         this.rotationMotor.configurePIDFF(ROTATION_KP, ROTATION_KI, ROTATION_KD, ROTATION_KIZ, ROTATION_KFF);
 
-        this.rotationEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        // this.rotationEncoder.configAbsoluteSensorRange(AbsoluteSensorRange.Unsigned_0_to_360);
+        // rotationEncoder.getConfigurator().apply(AbsoluteSensorRangeValue.Unsigned_0To1);
+        rotationEncoder.getConfigurator().apply(new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1));
+
 
         this.OFFSET = offset;
 
@@ -119,10 +129,10 @@ public class SwerveModule {
     }
 
     public double getRotationAbsolute() {
-        return rotationEncoder.getAbsolutePosition() - OFFSET;
+        return rotationEncoder.getAbsolutePosition().getValueAsDouble() - OFFSET;
     }
     public double getRawRotationAbsolute() {
-        return rotationEncoder.getAbsolutePosition();
+        return rotationEncoder.getAbsolutePosition().getValueAsDouble();
     }
     public double getNeoRotation(){
         return this.rotationMotor.getPosition()*encoderScale;
@@ -166,11 +176,11 @@ public class SwerveModule {
     }
 
     public void putRawRotationSmartDashboard() {
-        SmartDashboard.putNumber("CANCoder " + getID() + " Raw Rotation", getRawRotationAbsolute());
+        SmartDashboard.putNumber("CANcoder " + getID() + " Raw Rotation", getRawRotationAbsolute());
     }
 
     public void putRotationSmartDashboard() {
-        SmartDashboard.putNumber("CANCoder " + getID() + " Rotation", getRotationAbsolute());
+        SmartDashboard.putNumber("CANcoder " + getID() + " Rotation", getRotationAbsolute());
     }
 
     public void putSpeedSmartDashboard() {

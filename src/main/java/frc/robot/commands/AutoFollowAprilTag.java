@@ -12,10 +12,10 @@ import org.photonvision.targeting.TargetCorner;
 
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class AutoFollowAprilTag extends CommandBase {
+public class AutoFollowAprilTag extends Command {
     private final DrivetrainSubsystem m_subsystem;
     private final PhotonCamera m_camera;
 
