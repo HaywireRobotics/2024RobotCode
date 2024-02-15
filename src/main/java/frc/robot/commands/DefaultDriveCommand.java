@@ -54,7 +54,7 @@ public class DefaultDriveCommand extends Command {
         leftY = leftVector.y;
         // System.out.println(leftVector.toString());
 
-        double mirrorField = DriverStation.getAlliance() == DriverStation.Alliance.Blue ? 1.0 : -1.0;
+        double mirrorField = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? 1.0 : -1.0;
 
         m_subsystem.driveArcade(teleopSpeedMultiplier*leftX*mirrorField, teleopSpeedMultiplier*leftY*mirrorField, rightX);
       
