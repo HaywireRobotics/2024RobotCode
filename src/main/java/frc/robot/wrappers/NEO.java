@@ -1,14 +1,14 @@
 package frc.robot.wrappers;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkPIDController;
 
 public class NEO {
     private final CANSparkMax motor;
     private final RelativeEncoder encoder;
-    private final SparkMaxPIDController pidController;
+    private final SparkPIDController pidController;
 
     private int targetPosition = 0;
     private int targetVelocity = 0;
@@ -22,7 +22,7 @@ public class NEO {
     }
 
     public NEO(int id, boolean reversed, CANSparkMax.IdleMode mode) {
-        motor = new CANSparkMax(id, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(id, CANSparkLowLevel.MotorType.kBrushless);
 
         motor.setInverted(reversed);
         setIdleMode(mode);
@@ -53,7 +53,7 @@ public class NEO {
     }
 
     public synchronized void setPosition(double position, double arbitraryFeedForward) {
-        pidController.setReference(position, CANSparkMax.ControlType.kPosition, 0, arbitraryFeedForward, SparkMaxPIDController.ArbFFUnits.kVoltage);
+        pidController.setReference(position, CANSparkMax.ControlType.kPosition, 0, arbitraryFeedForward, SparkPIDController.ArbFFUnits.kVoltage);
         targetPosition = (int) position;
     }
 
@@ -63,7 +63,7 @@ public class NEO {
     }
 
     public synchronized void setVelocity(double velocity, double arbitraryFeedForward) {
-        pidController.setReference(velocity, CANSparkMax.ControlType.kVelocity, 0, arbitraryFeedForward, SparkMaxPIDController.ArbFFUnits.kVoltage);
+        pidController.setReference(velocity, CANSparkMax.ControlType.kVelocity, 0, arbitraryFeedForward, SparkPIDController.ArbFFUnits.kVoltage);
         targetVelocity = (int) velocity;
     }
 
