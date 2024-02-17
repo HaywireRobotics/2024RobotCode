@@ -5,22 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class IntakeCommand extends Command {
-  private final IntakeSubsystem m_subsystem;
-  private final boolean reversed;
+public class ClimbCommand extends Command {
+  private final ClimberSubsystem m_subsystem;
 
-  /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem subsystem) {
-    this(subsystem, false);
-  }
-
-  public IntakeCommand(IntakeSubsystem subsystem, boolean reversed) {
-    m_subsystem = subsystem;
-    this.reversed = reversed;
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new ClimbCommand. */
+  public ClimbCommand(ClimberSubsystem subsystem) {
+    this.m_subsystem = subsystem;
     addRequirements(subsystem);
   }
 
@@ -31,17 +23,13 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (reversed) {
-      m_subsystem.driveIntake(-Constants.INTAKE_SPEED);
-    } else {
-      m_subsystem.driveIntake(Constants.INTAKE_SPEED);
-    }
+    m_subsystem.runArms(0.1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.driveIntake(0.0);
+    m_subsystem.stopArms();
   }
 
   // Returns true when the command should end.

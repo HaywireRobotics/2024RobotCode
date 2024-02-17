@@ -20,7 +20,7 @@ public class FeederSubsystem extends SubsystemBase {
     this.runFeeder(Constants.FEEDER_SPEED);
   }
   public void runFeeder(double speed) {
-    feederMotor.set(speed);
+    feederMotor.set(-speed);
   }
   public void stopFeeder() {
     this.runFeeder(0.0);

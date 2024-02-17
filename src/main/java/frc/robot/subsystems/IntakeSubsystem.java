@@ -5,17 +5,17 @@ import frc.robot.Constants;
 import frc.robot.wrappers.NEO;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final NEO leftMotor;
-    private final NEO rightMotor;
+    private final NEO topMotor;
+    private final NEO bottomMotor;
 
     
     public IntakeSubsystem () {
-        this.leftMotor = new NEO(Constants.LEFT_INTAKE_MOTOR_ID);
-        this.rightMotor = new NEO(Constants.RIGHT_INTAKE_MOTOR_ID);
+        this.topMotor = new NEO(Constants.TOP_INTAKE_MOTOR_ID);
+        this.bottomMotor = new NEO(Constants.BOTTOM_INTAKE_MOTOR_ID);
     }
 
     public void driveIntake(double speed) {
-        leftMotor.set(speed);
-        rightMotor.set(-speed);
+        topMotor.set(speed);
+        bottomMotor.set(speed);
     }
 }

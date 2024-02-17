@@ -6,10 +6,12 @@ package frc.robot;
 
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.AutoFollowAprilTag;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ScrewCommand;
 import frc.robot.commands.ShootPercentCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -78,14 +80,17 @@ public class RobotContainer {
     m_driveController.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(800); }));
     m_driveController.a().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(2000); }));
 
-    m_driveController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem));
-    m_driveController.leftTrigger().onTrue(new IntakeCommand(m_intakeSubsystem, true));
+    m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_manipulatorController.leftTrigger().onTrue(new IntakeCommand(m_intakeSubsystem));
-    m_manipulatorController.leftBumper().onTrue(new IntakeCommand(m_intakeSubsystem, true));
+    m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_manipulatorController.a().onTrue(new FeedCommand(m_feederSubsystem));
-    m_manipulatorController.rightTrigger().onTrue(new ShootPercentCommand(m_shooterSubsystem, 0.75));
+    m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem));
+    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
+
+    m_manipulatorController.x().whileTrue(new ClimbCommand(m_climberSubsystem));
+    m_manipulatorController.y().whileTrue(new ScrewCommand(m_screwSubsystem));
   }
 
   public void disable() {
@@ -105,11 +110,15 @@ public class RobotContainer {
 
     // return new AutoDriveState(
     //   m_drivetrainSubsystem, 
-    //   new SwerveModuleState(537, Rotation2d.fromDegrees(180.0))
+    //   new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
     // ).withTimeout(7);
+
+    return new InstantCommand(() -> { m_screwSubsystem.runScrew(0.2); })
+          .withTimeout(3)
+          .andThen(new InstantCommand(m_screwSubsystem::stopScrew));
 
     // return new AutoFollowAprilTag(m_drivetrainSubsystem, m_camera);
 
-    return new InstantCommand();
+    // return new InstantCommand();
   }
 }

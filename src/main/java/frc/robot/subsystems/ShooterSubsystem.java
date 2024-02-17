@@ -31,18 +31,18 @@ public class ShooterSubsystem extends SubsystemBase {
     this.leftShootMotor = new NEO(Constants.LEFT_SHOOT_MOTOR_ID);
     this.rightShootMotor = new NEO(Constants.RIGHT_SHOOT_MOTOR_ID);
 
-    leftShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
-    rightShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
+    // leftShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
+    // rightShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
   }
 
   public void setShooterSpeed(double speed) {
-    leftShootMotor.setVelocity(speed);
-    rightShootMotor.setVelocity(speed);
+    leftShootMotor.setVelocity(-speed);
+    rightShootMotor.setVelocity(-speed);
     setPoint = speed;
   }
   public void runShooterPercent(double percent) {
-    leftShootMotor.set(percent);
-    rightShootMotor.set(percent);
+    leftShootMotor.set(-percent);
+    rightShootMotor.set(-percent);
   }
   public void stopShooter() {
     this.runShooterPercent(0.0);

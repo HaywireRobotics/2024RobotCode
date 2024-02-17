@@ -22,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
   // make "righty-tighty" (never mind the fact that we don't actually know what that means in this context yet)
   public void runArms(double percent) {
     leftArmMotor.set(percent);
-    rightArmMotor.set(-percent);
+    rightArmMotor.set(percent);
   }
   public void stopArms() {
     this.runArms(0.0);

@@ -127,10 +127,10 @@ public class SwerveModule {
     }
 
     public double getRotationAbsolute() {
-        return rotationEncoder.getAbsolutePosition().getValueAsDouble() - OFFSET;
+        return (rotationEncoder.getAbsolutePosition().getValueAsDouble() - OFFSET) * 360;
     }
     public double getRawRotationAbsolute() {
-        return rotationEncoder.getAbsolutePosition().getValueAsDouble();
+        return rotationEncoder.getAbsolutePosition().getValueAsDouble() * 360;
     }
     public double getNeoRotation(){
         return this.rotationMotor.getPosition()*encoderScale;

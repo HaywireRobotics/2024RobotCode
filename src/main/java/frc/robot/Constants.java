@@ -31,29 +31,29 @@ public final class Constants {
     public static final int MAX_SPEED = 1000;
 
     // OFFSET values changed on 1/14/23 to fix widebot conumdrum
-    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 2;
-    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 1;
-    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 12; 
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 169;
+    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
+    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 7;
+    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 11; 
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = 0.185;
     public static final boolean FRONT_LEFT_REVERSE_DRIVE = true;
 
-    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 4;
-    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 3;
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 13;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 159.4; 
+    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 3;
+    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 4;
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 14;
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = 0.44; 
     public static final boolean FRONT_RIGHT_REVERSE_DRIVE = true;
 
-    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 8; 
-    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 7; 
-    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 159.0; 
+    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; 
+    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 6; 
+    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 12; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 0.359 + .125; 
     public static final boolean BACK_LEFT_REVERSE_DRIVE = true;
 
-    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 5; 
-    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 6; 
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 14;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 144;
-    public static final boolean BACK_RIGHT_REVERSE_DRIVE = false;
+    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; 
+    public static final int BACK_RIGHT_MODULE_STEER_MOTOR =  17; 
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 13;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 0.9;
+    public static final boolean BACK_RIGHT_REVERSE_DRIVE = true;
 
     public static final double STEER_MOTOR_GEAR_RATIO = 12.8 / 1;
     public static final double DRIVE_MOTOR_GEAR_RATIO = 8.14 / 1; // could potentially be 6.75:1 depending on if it is L1 of L2
@@ -62,14 +62,14 @@ public final class Constants {
 
 
     // INTAKE CONSTANTS
-    public static final int LEFT_INTAKE_MOTOR_ID = 9;
-    public static final int RIGHT_INTAKE_MOTOR_ID = 10;
+    public static final int TOP_INTAKE_MOTOR_ID = 15;
+    public static final int BOTTOM_INTAKE_MOTOR_ID = 24;
     public static final double INTAKE_SPEED = 0.3;
 
     // SHOOTER CONSTANTS
-    public static final int FEEDER_MOTOR_ID = 11;
-    public static final int LEFT_SHOOT_MOTOR_ID = 13;
-    public static final int RIGHT_SHOOT_MOTOR_ID = 14;
+    public static final int FEEDER_MOTOR_ID = 27;
+    public static final int LEFT_SHOOT_MOTOR_ID = 5;
+    public static final int RIGHT_SHOOT_MOTOR_ID = 26;
 
     public static final double SHOOTER_KP = 0.00007;
     public static final double SHOOTER_KI = 0.0;
@@ -79,7 +79,7 @@ public final class Constants {
     public static final double FEEDER_SPEED = 0.3;
 
     // SCREW ACTUATOR CONSTANTS
-    public static final int SCREW_MOTOR_ID = 12;
+    public static final int SCREW_MOTOR_ID = 21;
 
     public static final double SCREW_KP = 0.0048;
     public static final double SCREW_KI = 0.0025;
@@ -91,8 +91,8 @@ public final class Constants {
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
 
     // CLIMBER CONSTANTS
-    public static final int LEFT_ARM_ID = 15;
-    public static final int RIGHT_ARM_ID = 16;
+    public static final int LEFT_ARM_ID = 10;
+    public static final int RIGHT_ARM_ID = 23;
 
     public static final double PULLEY_DIAMETER = 0.01905;
     public static final double PULLEY_RADIUS = PULLEY_DIAMETER / 2;
