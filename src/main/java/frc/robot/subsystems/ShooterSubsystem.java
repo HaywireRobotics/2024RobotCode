@@ -4,15 +4,12 @@
 
 package frc.robot.subsystems;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.List;
 
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
->>>>>>> f1e0be53bb66771964098ed87dc1e5fffc475c13
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
