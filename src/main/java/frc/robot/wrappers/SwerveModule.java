@@ -4,6 +4,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,13 @@ public class SwerveModule {
     private double DRIVE_KD = 0.0; //0.001;
     private double DRIVE_KIZ = 0;
     private double DRIVE_KFF = 0;
+
+    private double ANGLE_KP = 0.00005; // 0.0048
+    private double ANGLE_KI = 0.00; //0.0025
+    private double ANGLE_KD = 0.0000; //0.00001
+    private double ANGLE_KIZ = this.INTEGRATOR_RANGE;
+    private double ANGLE_KFF = 0.0;
+    private PIDController angleController = new PIDController(ANGLE_KP, ANGLE_KI, ANGLE_KD);
 
     private boolean enabled = false;
 
@@ -54,7 +62,7 @@ public class SwerveModule {
         this.rotationEncoder = rotationEncoder;
         
         this.driveMotor.configurePIDFF(DRIVE_KP, DRIVE_KI, DRIVE_KD, DRIVE_KIZ, DRIVE_KFF);
-        this.rotationMotor.configurePIDFF(ROTATION_KP, ROTATION_KI, ROTATION_KD, ROTATION_KIZ, ROTATION_KFF);
+        // this.rotationMotor.configurePIDFF(ROTATION_KP, ROTATION_KI, ROTATION_KD, ROTATION_KIZ, ROTATION_KFF);
 
         rotationEncoder.getConfigurator().apply(new MagnetSensorConfigs().withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1));
 
@@ -87,12 +95,22 @@ public class SwerveModule {
             // double rotationTarget = this.getRotation() + angleDifference(this.getRotationAbsolute(), stateAngle);
             double targetRotations = this.angleToSteerRotations(stateAngle + Math.round(this.steerRotationsToAngle(rotationMotor.getPosition()) / 360) * 360);
             // rotationMotor.setPosition(this.angleToSteerRotations(stateAngle));
-            rotationMotor.setPosition(targetRotations);
+            // rotationMotor.setPosition(targetRotations);
 
+            // PID would need to be tuned differently to reflect new method
+            // tries to make the error zero instead of shooting for a particular angle. Should help to avoid any
+            // of the problems between -180:180 and 0:360 that we've been running into by making it so that
+            // any pair of angles will go to a -180:180 error and thereafter be corrected.
+            double angleError = calculateError(this.getRotationAbsolute(), stateAngle);
+            double angleCalc = angleController.calculate(angleError, 0.0);
+            rotationMotor.set(angleCalc);
+
+            SmartDashboard.putNumber("AngleCalc"+rotationEncoder.getDeviceID(), angleError);
+            SmartDashboard.putNumber("AngleError"+rotationEncoder.getDeviceID(), angleError);
             SmartDashboard.putNumber("DesiredStateAngle"+rotationEncoder.getDeviceID(), stateAngle);
 
-            double rotationError = stateAngle - this.steerRotationsToAngle(rotationMotor.getPosition());
-            SmartDashboard.putNumber("RotationError"+rotationEncoder.getDeviceID(), rotationError);
+            // double rotationError = stateAngle - this.steerRotationsToAngle(rotationMotor.getPosition());
+            // SmartDashboard.putNumber("RotationError"+rotationEncoder.getDeviceID(), rotationError);
             // double directionSmoothing = Math.cos(Math.toRadians(rotationError));
             double directionSmoothing = 1.0;
             driveMotor.setVelocity(desiredState.speedMetersPerSecond * directionSmoothing);
@@ -149,6 +167,12 @@ public class SwerveModule {
     {
         double diff = ( angle2 - angle1 + 180 ) % 360 - 180;
         return diff < -180 ? diff + 360 : diff;
+    }
+
+    // https://www.desmos.com/calculator/yn5megahcu
+    public static double calculateError(double angle, double target) {
+        double diff = target - angle;
+        return ((-diff - 180) % 360) - 180;
     }
 
     public SwerveModuleState getState() {
