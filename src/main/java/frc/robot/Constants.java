@@ -98,4 +98,6 @@ public final class Constants {
     public static final double PULLEY_RADIUS = PULLEY_DIAMETER / 2;
     public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI;
     public static final double CLIMBER_GEAR_RATIO = 45/1;
+
+    public static final double CLIMBER_SPEED = 0.5;
   }

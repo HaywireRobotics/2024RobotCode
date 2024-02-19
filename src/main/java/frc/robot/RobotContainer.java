@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.AutoFollowAprilTag;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedCommand;
@@ -53,10 +54,14 @@ public class RobotContainer {
   // private final PhotonCamera m_camera = new PhotonCamera("banana");
 
   public final DefaultDriveCommand defaultDriveCommand;
+  public final DefaultClimbCommand defaultClimbCommand;
 
   public RobotContainer() {
     defaultDriveCommand = new DefaultDriveCommand(m_drivetrainSubsystem, m_driveController);
     m_drivetrainSubsystem.setDefaultCommand(defaultDriveCommand);
+
+    defaultClimbCommand = new DefaultClimbCommand(m_climberSubsystem, m_driveController);
+    m_climberSubsystem.setDefaultCommand(defaultClimbCommand);
 
     // m_camera.setLED(VisionLEDMode.kOff);
 
@@ -89,9 +94,8 @@ public class RobotContainer {
     m_manipulatorController.rightBumper().whileTrue(new FeedCommand(m_feederSubsystem));
     m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
 
-    m_manipulatorController.y().whileTrue(new ClimbCommand(m_climberSubsystem, 0.2));
-    m_manipulatorController.a().whileTrue(new ClimbCommand(m_climberSubsystem, -0.2));
     m_manipulatorController.x().whileTrue(new ScrewPercentCommand(m_screwSubsystem, 0.1));
+    m_manipulatorController.b().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -0.1));
   }
 
   public void disable() {
