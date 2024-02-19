@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ScrewSubsystem;
 
-public class ScrewCommand extends Command {
+public class ScrewPercentCommand extends Command {
   private final ScrewSubsystem m_subsystem;
+  private double speed;
 
   /** Creates a new ScrewCommand. */
-  public ScrewCommand(ScrewSubsystem subsystem) {
+  public ScrewPercentCommand(ScrewSubsystem subsystem, double speed) {
     this.m_subsystem = subsystem;
+    this.speed = speed;
 
     addRequirements(subsystem);
   }
@@ -24,7 +26,7 @@ public class ScrewCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.runScrew(0.3);
+    m_subsystem.runScrew(speed);
   }
 
   // Called once the command ends or is interrupted.
