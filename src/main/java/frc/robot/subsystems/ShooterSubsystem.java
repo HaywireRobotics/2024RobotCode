@@ -41,7 +41,7 @@ public class ShooterSubsystem extends SubsystemBase {
     setPoint = speed;
   }
   public void runShooterPercent(double percent) {
-    leftShootMotor.set(-percent);
+    leftShootMotor.set(percent);
     rightShootMotor.set(-percent);
   }
   public void stopShooter() {

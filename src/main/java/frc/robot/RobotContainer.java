@@ -108,14 +108,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     m_drivetrainSubsystem.enable();
 
-    // return new AutoDriveState(
-    //   m_drivetrainSubsystem, 
-    //   new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
-    // ).withTimeout(7);
+    return new AutoDriveState(
+      m_drivetrainSubsystem, 
+      new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
+    ).withTimeout(7);
 
-    return new InstantCommand(() -> { m_screwSubsystem.runScrew(0.2); })
-          .withTimeout(3)
-          .andThen(new InstantCommand(m_screwSubsystem::stopScrew));
+    // return new InstantCommand(() -> { m_screwSubsystem.runScrew(0.2); })
+    //       .withTimeout(3)
+    //       .andThen(new InstantCommand(m_screwSubsystem::stopScrew));
 
     // return new AutoFollowAprilTag(m_drivetrainSubsystem, m_camera);
 

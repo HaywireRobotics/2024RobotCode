@@ -14,9 +14,9 @@ import frc.robot.util.Vector;
 public class SwerveModule {
 
     private double INTEGRATOR_RANGE = 0.01;
-    private double ROTATION_KP = 0.0048; // 0.003
-    private double ROTATION_KI = 0.0025; //0.00  // 0.0015
-    private double ROTATION_KD = 0.00001;
+    private double ROTATION_KP = 0.00005; // 0.0048
+    private double ROTATION_KI = 0.00; //0.0025
+    private double ROTATION_KD = 0.0000; //0.00001
     private double ROTATION_KIZ = this.INTEGRATOR_RANGE;
     private double ROTATION_KFF = 0;
     private double DRIVE_KP = 0.00007; //6.5e-5;
@@ -84,12 +84,23 @@ public class SwerveModule {
         if ( isEnabled() ){
             // If drive is stoped, hold last angle.
             double stateAngle = Double.isNaN(desiredState.angle.getDegrees()) ? pRotationAngle : desiredState.angle.getDegrees();
-            double rotationTarget = this.getRotation() + angleDifference(this.getRotationAbsolute(), stateAngle);
-            rotationMotor.setPosition(this.angleToSteerRotations(rotationTarget));
+            // double rotationTarget = this.getRotation() + angleDifference(this.getRotationAbsolute(), stateAngle);
+            double targetRotations = this.angleToSteerRotations(stateAngle + Math.round(this.steerRotationsToAngle(rotationMotor.getPosition()) / 360) * 360);
+            // rotationMotor.setPosition(this.angleToSteerRotations(stateAngle));
+            rotationMotor.setPosition(targetRotations);
 
-            double rotationError = rotationTarget - this.steerRotationsToAngle(rotationMotor.getPosition());
-            double directionSmoothing = Math.cos(Math.toRadians(rotationError));
-            driveMotor.setVelocity(desiredState.speedMetersPerSecond * directionSmoothing); // ACTUALLY EXPECTS RPMS, OUGHT TO FIX
+            SmartDashboard.putNumber("DesiredStateAngle"+rotationEncoder.getDeviceID(), stateAngle);
+
+            double rotationError = stateAngle - this.steerRotationsToAngle(rotationMotor.getPosition());
+            SmartDashboard.putNumber("RotationError"+rotationEncoder.getDeviceID(), rotationError);
+            // double directionSmoothing = Math.cos(Math.toRadians(rotationError));
+            double directionSmoothing = 1.0;
+            driveMotor.setVelocity(desiredState.speedMetersPerSecond * directionSmoothing);
+        } else {
+            // rotationMotor.setVelocity(0.0);
+            // driveMotor.setVelocity(0.0);
+            rotationMotor.set(0.0);
+            driveMotor.set(0.0);
         }
         
         SmartDashboard.putNumber("SVAngle"+rotationEncoder.getDeviceID(), getRotation());
@@ -126,7 +137,7 @@ public class SwerveModule {
         return (angle - initialEncoderAngle / 360) * Constants.STEER_MOTOR_GEAR_RATIO;
     }
     public double steerRotationsToAngle(double rotations) {
-        return (rotations / Constants.STEER_MOTOR_GEAR_RATIO) * 360 + initialEncoderAngle;
+        return ((rotations / Constants.STEER_MOTOR_GEAR_RATIO) * 360 + initialEncoderAngle);
     }
 
     public void zeroEncoders(){
