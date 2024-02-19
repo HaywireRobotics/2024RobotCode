@@ -90,6 +90,12 @@ public final class Constants {
     public static final double MAX_SCREW_INCHES = 5;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
 
+    public static final double EXTENSION_BEFORE_SCREW = 7;
+    public static final double SCREW_HINGE_DROPDOWN = 1.9;
+    public static final double SHOOTER_LENGTH_TO_SCREW_HINGE = 14;
+    public static final double SCREW_MOTOR_HEIGHT = 7.5;
+    public static final double SHOOTER_HINGE_X = 4;
+
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 10;
     public static final int RIGHT_ARM_ID = 23;

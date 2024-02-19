@@ -41,22 +41,22 @@ public class ScrewSubsystem extends SubsystemBase {
 
   // I promise the math is accurate, please don't touch -Eli
   private double inchesToShooterAngle(double inches) {
-    double s = inches + 7;
-    double a = Math.sqrt(inches*inches + 1.9*1.9);
-    double b = Math.sqrt(4*4 + 7.5*7.5);
-    double c = 14;
+    double s = inches + Constants.EXTENSION_BEFORE_SCREW;
+    double a = Math.sqrt(s*s + Math.pow(Constants.SCREW_HINGE_DROPDOWN, 2));
+    double b = Math.sqrt(Math.pow(Constants.SHOOTER_HINGE_X, 2) + Math.pow(Constants.SCREW_MOTOR_HEIGHT, 2));
+    double c = Constants.SHOOTER_LENGTH_TO_SCREW_HINGE;
 
     double alpha = Math.acos((b*b + c*c - a*a) / (2*b*c));
-    double theta = 180 - Math.atan(7.5/4) - alpha;
+    double theta = 180 - Math.atan(Constants.SCREW_MOTOR_HEIGHT/Constants.SHOOTER_HINGE_X) - alpha;
     return theta;
   }
   private double shooterAngleToInches(double angle) {
-    double b = Math.sqrt(4*4 + 7.5*7.5);
-    double c = 14;
+    double b = Math.sqrt(Math.pow(Constants.SHOOTER_HINGE_X, 2) + Math.pow(Constants.SCREW_MOTOR_HEIGHT, 2));
+    double c = Constants.SHOOTER_LENGTH_TO_SCREW_HINGE;
 
-    double x = 2*b*c * Math.cos(180 - Math.atan(7.5/4) - angle);
-    double s = Math.sqrt(b*b + c*c - 1.9*1.9 - x);
-    double inches = s - 7;
+    double x = 2*b*c * Math.cos(180 - Math.atan(Constants.SCREW_MOTOR_HEIGHT/Constants.SHOOTER_HINGE_X) - angle);
+    double s = Math.sqrt(b*b + c*c - Math.pow(Constants.SCREW_HINGE_DROPDOWN, 2) - x);
+    double inches = s - Constants.EXTENSION_BEFORE_SCREW;
     return inches;
   }
 
