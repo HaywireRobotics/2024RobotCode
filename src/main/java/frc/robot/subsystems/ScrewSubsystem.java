@@ -28,6 +28,15 @@ public class ScrewSubsystem extends SubsystemBase {
   public void stopScrew() {
     screwMotor.set(0.0);
   }
+  
+  public void setPositionInches(double inches) {
+    double rawRotations = this.inchesToRawRotations(inches);
+    screwMotor.setPosition(rawRotations);
+  }
+  public void setPositionDegrees(double angle) {
+    double inches = shooterAngleToInches(angle);
+    this.setPositionInches(inches);
+  }
 
   private double screwRotationsToRawRotations(double rotations) {
     return rotations * Constants.SCREW_GEAR_RATIO;
