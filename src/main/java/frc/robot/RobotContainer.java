@@ -60,7 +60,7 @@ public class RobotContainer {
     defaultDriveCommand = new DefaultDriveCommand(m_drivetrainSubsystem, m_driveController);
     m_drivetrainSubsystem.setDefaultCommand(defaultDriveCommand);
 
-    defaultClimbCommand = new DefaultClimbCommand(m_climberSubsystem, m_driveController);
+    defaultClimbCommand = new DefaultClimbCommand(m_climberSubsystem, m_manipulatorController);
     m_climberSubsystem.setDefaultCommand(defaultClimbCommand);
 
     // m_camera.setLED(VisionLEDMode.kOff);
@@ -94,8 +94,8 @@ public class RobotContainer {
     m_manipulatorController.rightBumper().whileTrue(new FeedCommand(m_feederSubsystem));
     m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
 
-    m_manipulatorController.x().whileTrue(new ScrewPercentCommand(m_screwSubsystem, 0.1));
-    m_manipulatorController.b().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -0.1));
+    m_manipulatorController.x().whileTrue(new ScrewPercentCommand(m_screwSubsystem, 0.2));
+    m_manipulatorController.b().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -0.2));
   }
 
   public void disable() {
