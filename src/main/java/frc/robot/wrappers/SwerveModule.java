@@ -15,20 +15,20 @@ import frc.robot.util.Vector;
 public class SwerveModule {
 
     private double INTEGRATOR_RANGE = 0.01;
-    private double ROTATION_KP = 0.00005; // 0.0048
-    private double ROTATION_KI = 0.00; //0.0025
-    private double ROTATION_KD = 0.0000; //0.00001
-    private double ROTATION_KIZ = this.INTEGRATOR_RANGE;
-    private double ROTATION_KFF = 0;
+    // private double ROTATION_KP = 0.00005; // 0.0048
+    // private double ROTATION_KI = 0.00; //0.0025
+    // private double ROTATION_KD = 0.0000; //0.00001
+    // private double ROTATION_KIZ = this.INTEGRATOR_RANGE;
+    // private double ROTATION_KFF = 0;
     private double DRIVE_KP = 0.00007; //6.5e-5;
     private double DRIVE_KI = 0.0;  //5.5e-7;
     private double DRIVE_KD = 0.0; //0.001;
     private double DRIVE_KIZ = 0;
     private double DRIVE_KFF = 0;
 
-    private double ANGLE_KP = 0.00005; // 0.0048
+    private double ANGLE_KP = 0.005; // 0.0048
     private double ANGLE_KI = 0.00; //0.0025
-    private double ANGLE_KD = 0.0000; //0.00001
+    private double ANGLE_KD = 0.00001; //0.00001
     private double ANGLE_KIZ = this.INTEGRATOR_RANGE;
     private double ANGLE_KFF = 0.0;
     private PIDController angleController = new PIDController(ANGLE_KP, ANGLE_KI, ANGLE_KD);
@@ -72,12 +72,12 @@ public class SwerveModule {
         zeroEncoders();
     }
 
-    public void setRotationPID(double kp, double ki, double kd) {
-        ROTATION_KP = kp;
-        ROTATION_KI = ki;
-        ROTATION_KD = kd;
-        rotationMotor.configurePIDFF(ROTATION_KP, ROTATION_KI, ROTATION_KD, ROTATION_KIZ, ROTATION_KFF);
-    }
+    // public void setRotationPID(double kp, double ki, double kd) {
+    //     ROTATION_KP = kp;
+    //     ROTATION_KI = ki;
+    //     ROTATION_KD = kd;
+    //     rotationMotor.configurePIDFF(ROTATION_KP, ROTATION_KI, ROTATION_KD, ROTATION_KIZ, ROTATION_KFF);
+    // }
 
     public void setDrivePID(double kp, double ki, double kd) {
         DRIVE_KP = kp;
@@ -105,7 +105,7 @@ public class SwerveModule {
             double angleCalc = angleController.calculate(angleError, 0.0);
             rotationMotor.set(angleCalc);
 
-            SmartDashboard.putNumber("AngleCalc"+rotationEncoder.getDeviceID(), angleError);
+            SmartDashboard.putNumber("AngleCalc"+rotationEncoder.getDeviceID(), angleCalc);
             SmartDashboard.putNumber("AngleError"+rotationEncoder.getDeviceID(), angleError);
             SmartDashboard.putNumber("DesiredStateAngle"+rotationEncoder.getDeviceID(), stateAngle);
 
@@ -172,7 +172,9 @@ public class SwerveModule {
     // https://www.desmos.com/calculator/yn5megahcu
     public static double calculateError(double angle, double target) {
         double diff = target - angle;
-        return ((-diff - 180) % 360) - 180;
+        double javasStupidModuloResult = (-diff - 180) % 360;
+        if (javasStupidModuloResult < 0) javasStupidModuloResult += 360;
+        return javasStupidModuloResult - 180;
     }
 
     public SwerveModuleState getState() {

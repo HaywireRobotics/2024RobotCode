@@ -173,7 +173,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveVector(double speed, double direction, double aSpeed, boolean fieldCentric) {
         double driveSpeed = speed;
-        double driveAngle = direction + (fieldCentric ? getNavx() : 0);  // field-centric
+        double driveAngle = -(direction + (fieldCentric ? getNavx() : 0));  // field-centric
 
         SwerveModuleState frontLeftDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
         SwerveModuleState frontRightDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
@@ -183,10 +183,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double rotateSpeed = currentDriveSpeed * aSpeed;
 
         // different signs accounts for orientation of modules
-        SwerveModuleState frontLeftRotate =  new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState frontRightRotate = new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState backLeftRotate =   new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState backRightRotate =  new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState frontLeftRotate =  new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState frontRightRotate = new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState backLeftRotate =   new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState backRightRotate =  new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
 
         setFrontLeft(this.addStates(frontLeftDrive, frontLeftRotate));
         setFrontRight(this.addStates(frontRightDrive, frontRightRotate));
