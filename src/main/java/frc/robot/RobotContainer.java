@@ -91,8 +91,8 @@ public class RobotContainer {
     m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_manipulatorController.rightBumper().whileTrue(new FeedCommand(m_feederSubsystem));
-    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
+    m_manipulatorController.rightBumper().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
+    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
 
     m_manipulatorController.x().whileTrue(new ScrewPercentCommand(m_screwSubsystem, 0.2));
     m_manipulatorController.b().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -0.2));

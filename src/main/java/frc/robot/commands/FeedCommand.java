@@ -5,14 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class FeedCommand extends CommandBase {
   private final FeederSubsystem m_subsystem;
+  private final IntakeSubsystem m_intakeSubsystem;
 
   /** Creates a new FeedCommand. */
-  public FeedCommand(FeederSubsystem subsystem) {
+  public FeedCommand(FeederSubsystem subsystem, IntakeSubsystem intakeSubsystem) {
     this.m_subsystem = subsystem;
+    this.m_intakeSubsystem = intakeSubsystem;
 
     addRequirements(subsystem);
   }
@@ -25,12 +29,14 @@ public class FeedCommand extends CommandBase {
   @Override
   public void execute() {
     m_subsystem.runFeeder();
+    m_intakeSubsystem.driveIntake(-Constants.INTAKE_SPEED);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_subsystem.stopFeeder();
+    m_intakeSubsystem.driveIntake(0.0);
   }
 
   // Returns true when the command should end.
