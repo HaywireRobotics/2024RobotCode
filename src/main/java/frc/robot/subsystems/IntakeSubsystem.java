@@ -14,8 +14,15 @@ public class IntakeSubsystem extends SubsystemBase {
         this.bottomMotor = new NEO(Constants.BOTTOM_INTAKE_MOTOR_ID);
     }
 
+    public void driveIntake() {
+        this.driveIntake(-Constants.INTAKE_SPEED);
+    }
     public void driveIntake(double speed) {
         topMotor.set(speed);
         bottomMotor.set(speed);
+    }
+
+    public void stopIntake() {
+        this.driveIntake(0.0);
     }
 }

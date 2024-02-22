@@ -31,8 +31,8 @@ public class ShooterSubsystem extends SubsystemBase {
     this.leftShootMotor = new NEO(Constants.LEFT_SHOOT_MOTOR_ID);
     this.rightShootMotor = new NEO(Constants.RIGHT_SHOOT_MOTOR_ID);
 
-    // leftShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
-    // rightShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
+    leftShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
+    rightShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
   }
 
   public void setShooterSpeed(double speed) {
@@ -53,11 +53,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   public boolean isReadyLeft() {
     return isWithinMargin(leftAverage, setPoint, Constants.SHOOT_MARGIN_OF_ERROR) &&
-           isWithinMargin(leftAverage, leftShootMotor.getVelocity(), Constants.SHOOT_MARGIN_OF_ERROR);
+           isWithinMargin(leftShootMotor.getVelocity(), setPoint, Constants.SHOOT_MARGIN_OF_ERROR);
   }
   public boolean isReadyRight() {
     return isWithinMargin(rightAverage, setPoint, Constants.SHOOT_MARGIN_OF_ERROR) &&
-           isWithinMargin(rightAverage, rightShootMotor.getVelocity(), Constants.SHOOT_MARGIN_OF_ERROR);
+           isWithinMargin(rightShootMotor.getVelocity(), setPoint, Constants.SHOOT_MARGIN_OF_ERROR);
   }
   private boolean isWithinMargin(double value, double goal, double margin) {
     return value >= goal - margin && value <= goal + margin;

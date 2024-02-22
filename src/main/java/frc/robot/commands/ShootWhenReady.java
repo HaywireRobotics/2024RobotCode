@@ -4,50 +4,49 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class FeedCommand extends CommandBase {
-  private final FeederSubsystem m_subsystem;
+public class ShootWhenReady extends Command {
+  private final ShooterSubsystem m_subsystem;
+  private final FeederSubsystem m_feederSubsystem;
   private final IntakeSubsystem m_intakeSubsystem;
-  private final boolean reversed;
+  private final double speed;
 
-  /** Creates a new FeedCommand. */
-  public FeedCommand(FeederSubsystem subsystem, IntakeSubsystem intakeSubsystem) {
-    this(subsystem, intakeSubsystem, false);
-  }
-
-  public FeedCommand(FeederSubsystem subsystem, IntakeSubsystem intakeSubsystem, boolean reversed) {
+  /** Creates a new ShootWhenReady. */
+  public ShootWhenReady(ShooterSubsystem subsystem, FeederSubsystem feederSubsystem, IntakeSubsystem intakeSubsystem, double speed) {
     this.m_subsystem = subsystem;
+    this.m_feederSubsystem = feederSubsystem;
     this.m_intakeSubsystem = intakeSubsystem;
-    this.reversed = reversed;
+    this.speed = speed;
 
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_subsystem.setShooterSpeed(speed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!reversed) {
-      m_subsystem.runFeeder(Constants.FEEDER_SPEED);
-      m_intakeSubsystem.driveIntake(-Constants.INTAKE_SPEED);
-    } else {
-      m_subsystem.runFeeder(Constants.FEEDER_REVERSE_SPEED);
-      m_intakeSubsystem.driveIntake(0.1);
+    if (m_subsystem.isReady()) {
+      m_feederSubsystem.runFeeder();
+      m_intakeSubsystem.driveIntake();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.stopFeeder();
-    m_intakeSubsystem.driveIntake(0.0);
+    m_subsystem.stopShooter();
+    m_feederSubsystem.stopFeeder();
+    m_intakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.

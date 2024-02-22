@@ -14,6 +14,7 @@ import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewPercentCommand;
 import frc.robot.commands.ShootPercentCommand;
+import frc.robot.commands.ShootWhenReady;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -92,7 +93,9 @@ public class RobotContainer {
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
     m_manipulatorController.rightBumper().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
-    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
+    m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
+    // m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
+    m_manipulatorController.rightTrigger().whileTrue(new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000));
 
     m_manipulatorController.x().whileTrue(new ScrewPercentCommand(m_screwSubsystem, 0.2));
     m_manipulatorController.b().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -0.2));

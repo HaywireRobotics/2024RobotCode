@@ -67,16 +67,19 @@ public final class Constants {
     public static final double INTAKE_SPEED = 0.4;
 
     // SHOOTER CONSTANTS
-    public static final int FEEDER_MOTOR_ID = 27;
     public static final int LEFT_SHOOT_MOTOR_ID = 5;
     public static final int RIGHT_SHOOT_MOTOR_ID = 26;
 
-    public static final double SHOOTER_KP = 0.00007;
+    public static final double SHOOTER_KP = 0.0007;
     public static final double SHOOTER_KI = 0.0;
     public static final double SHOOTER_KD = 0.0;
 
     public static final double SHOOT_MARGIN_OF_ERROR = 50.0;
+
+    // FEEDER CONSTANTS
+    public static final int FEEDER_MOTOR_ID = 27;
     public static final double FEEDER_SPEED = 0.5;
+    public static final double FEEDER_REVERSE_SPEED = -0.2;
 
     // SCREW ACTUATOR CONSTANTS
     public static final int SCREW_MOTOR_ID = 21;
@@ -87,10 +90,10 @@ public final class Constants {
 
     public static final double SCREW_GEAR_RATIO = 5/1;
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
-    public static final double MAX_SCREW_INCHES = 5;
+    public static final double MAX_SCREW_INCHES = 6.25;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
 
-    public static final double EXTENSION_BEFORE_SCREW = 7;
+    public static final double EXTENSION_BEFORE_SCREW = 8.25;
     public static final double SCREW_HINGE_DROPDOWN = 1.9;
     public static final double SHOOTER_LENGTH_TO_SCREW_HINGE = 14;
     public static final double SCREW_MOTOR_HEIGHT = 7.5;

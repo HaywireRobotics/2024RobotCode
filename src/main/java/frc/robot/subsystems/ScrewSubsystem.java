@@ -91,6 +91,7 @@ public class ScrewSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Screw Drive Rotations", screwMotor.getPosition());
     SmartDashboard.putNumber("Screw Drive Extension Inches", this.getScrewExtensionInches());
   }
 }
