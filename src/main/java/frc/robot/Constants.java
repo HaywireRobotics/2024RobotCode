@@ -28,7 +28,7 @@ public final class Constants {
      */
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.48895;
 
-    public static final int MAX_SPEED = 3000;
+    public static final int MAX_SPEED = 5000;
 
     // OFFSET values changed on 1/14/23 to fix widebot conumdrum
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
@@ -64,7 +64,7 @@ public final class Constants {
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;
     public static final int BOTTOM_INTAKE_MOTOR_ID = 24;
-    public static final double INTAKE_SPEED = 0.4;
+    public static final double INTAKE_SPEED = 0.5;
 
     // SHOOTER CONSTANTS
     public static final int LEFT_SHOOT_MOTOR_ID = 5;

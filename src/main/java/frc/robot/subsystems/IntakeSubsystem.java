@@ -15,11 +15,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void driveIntake() {
-        this.driveIntake(-Constants.INTAKE_SPEED);
+        this.driveIntake(Constants.INTAKE_SPEED);
     }
     public void driveIntake(double speed) {
-        topMotor.set(speed);
-        bottomMotor.set(speed);
+        topMotor.set(-speed);
+        bottomMotor.set(-speed);
     }
 
     public void stopIntake() {

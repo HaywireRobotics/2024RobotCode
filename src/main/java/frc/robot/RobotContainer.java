@@ -83,8 +83,8 @@ public class RobotContainer {
     m_driveController.y().onTrue(new InstantCommand(m_drivetrainSubsystem::toggleFieldCentricDrive));
     m_driveController.b().onTrue(new InstantCommand(m_drivetrainSubsystem::zeroHeading));
 
-    m_driveController.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(800); }));
-    m_driveController.a().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(2000); }));
+    m_driveController.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(1800); }));
+    m_driveController.a().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(4999); }));
 
     m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));

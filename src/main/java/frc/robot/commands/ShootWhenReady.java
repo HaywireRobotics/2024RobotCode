@@ -9,19 +9,22 @@ import frc.robot.Constants;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ShootWhenReady extends Command {
   private final ShooterSubsystem m_subsystem;
   private final FeederSubsystem m_feederSubsystem;
   private final IntakeSubsystem m_intakeSubsystem;
   private final double speed;
+  private final Timer timer;
 
   /** Creates a new ShootWhenReady. */
   public ShootWhenReady(ShooterSubsystem subsystem, FeederSubsystem feederSubsystem, IntakeSubsystem intakeSubsystem, double speed) {
     this.m_subsystem = subsystem;
     this.m_feederSubsystem = feederSubsystem;
     this.m_intakeSubsystem = intakeSubsystem;
-    this.speed = speed;
+    this.speed = speed/5000.0;
+    this.timer = new Timer();
 
     addRequirements(subsystem);
   }
@@ -29,13 +32,16 @@ public class ShootWhenReady extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.setShooterSpeed(speed);
+    m_subsystem.runShooterPercent(speed);
+    timer.restart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_subsystem.isReady()) {
+    m_subsystem.runShooterPercent(speed);
+    // if (m_subsystem.isReady()) {
+      if (timer.hasElapsed(1.0)) {
       m_feederSubsystem.runFeeder();
       m_intakeSubsystem.driveIntake();
     }
