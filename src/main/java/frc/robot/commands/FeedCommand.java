@@ -36,10 +36,10 @@ public class FeedCommand extends CommandBase {
   public void execute() {
     if (!reversed) {
       m_subsystem.runFeeder(Constants.FEEDER_SPEED);
-      m_intakeSubsystem.driveIntake(-Constants.INTAKE_SPEED);
+      m_intakeSubsystem.driveIntake(Constants.INTAKE_SPEED);
     } else {
       m_subsystem.runFeeder(Constants.FEEDER_REVERSE_SPEED);
-      m_intakeSubsystem.driveIntake(0.1);
+      m_intakeSubsystem.driveIntake(-Constants.INTAKE_SPEED);
     }
   }
 

@@ -116,10 +116,18 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     m_drivetrainSubsystem.enable();
 
-    return new AutoDriveState(
+    // return new AutoDriveState(
+    //   m_drivetrainSubsystem, 
+    //   new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
+    // ).withTimeout(7);
+
+    Command auto = new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).andThen(
+    new AutoDriveState(
       m_drivetrainSubsystem, 
-      new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
-    ).withTimeout(7);
+      new SwerveModuleState(2000, Rotation2d.fromDegrees(180.0))
+    )).withTimeout(5);
+
+    return auto;
 
     // return new InstantCommand(() -> { m_screwSubsystem.runScrew(0.2); })
     //       .withTimeout(3)
