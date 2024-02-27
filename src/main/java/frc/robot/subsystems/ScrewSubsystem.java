@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,18 +15,21 @@ public class ScrewSubsystem extends SubsystemBase {
   private final NEO screwMotor;
   private final DutyCycleEncoder hingeEncoder;
 
+  // private final PIDController screwController;
+
   /** Creates a new ScrewSubsystem. */
   public ScrewSubsystem() {
     this.screwMotor = new NEO(Constants.SCREW_MOTOR_ID);
     this.hingeEncoder = new DutyCycleEncoder(Constants.HINGE_ENCODER_ID);
+    hingeEncoder.setDistancePerRotation(360.0);
 
     screwMotor.configurePIDFF(Constants.SCREW_KP, Constants.SCREW_KI, Constants.SCREW_KD);
   }
 
   public void runScrew(double speed) {
-    double rotations = this.getScrewRotations();
-    if (rotations <= 0 && speed < 0) { return; }
-    if (rotations >= Constants.MAX_SCREW_ROTATIONS && speed > 0) { return; }
+    double angle = hingeEncoder.getAbsolutePosition();
+    if (angle <= Constants.HINGE_MIN_ANGLE && speed > 0) { speed = 0; }
+    if (angle >= Constants.HINGE_MAX_ANGLE && speed < 0) { speed = 0; }
     screwMotor.set(speed);
   }
   public void stopScrew() {
@@ -93,8 +97,14 @@ public class ScrewSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    double speed = screwMotor.getMotor().get();
+    double angle = hingeEncoder.getAbsolutePosition();
+    // if (angle <= Constants.HINGE_MIN_ANGLE && speed < 0) { screwMotor.set(0.0); }
+    // if (angle >= Constants.HINGE_MAX_ANGLE && speed > 0) { screwMotor.set(0.0); }
+
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Screw Drive Rotations", screwMotor.getPosition());
     SmartDashboard.putNumber("Screw Drive Extension Inches", this.getScrewExtensionInches());
+    SmartDashboard.putNumber("Hinge Absolute Encoder", hingeEncoder.getAbsolutePosition());
   }
 }

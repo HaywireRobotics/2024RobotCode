@@ -31,10 +31,10 @@ public class DefaultClimbCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double rightY = m_controller.getRightY();
+    double rightY = -m_controller.getRightY();
     double filteredRight = Statics.applyDeadband(rightY, JOYSTICK_DEADBAND);
 
-    double leftY = m_controller.getLeftY();
+    double leftY = -m_controller.getLeftY();
     double filteredLeft = Statics.applyDeadband(leftY, JOYSTICK_DEADBAND);
 
     double rightSpeed = filteredRight * Constants.CLIMBER_SPEED;

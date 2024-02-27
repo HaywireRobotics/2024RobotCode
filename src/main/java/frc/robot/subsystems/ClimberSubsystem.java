@@ -28,7 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
     leftArmMotor.set(percent);
   }
   public void runRightArm(double percent) {
-    leftArmMotor.set(-percent);
+    rightArmMotor.set(-percent);
   }
   public void stopArms() {
     this.runArms(0.0);
