@@ -32,10 +32,15 @@ public class DefaultClimbCommand extends Command {
   @Override
   public void execute() {
     double rightY = m_controller.getRightY();
-    double filteredY = Statics.applyDeadband(rightY, JOYSTICK_DEADBAND);
+    double filteredRight = Statics.applyDeadband(rightY, JOYSTICK_DEADBAND);
 
-    double speed = filteredY * Constants.CLIMBER_SPEED;
-    m_subsystem.runArms(speed);
+    double leftY = m_controller.getLeftY();
+    double filteredLeft = Statics.applyDeadband(leftY, JOYSTICK_DEADBAND);
+
+    double rightSpeed = filteredRight * Constants.CLIMBER_SPEED;
+    double leftSpeed = filteredLeft * Constants.CLIMBER_SPEED;
+    m_subsystem.runRightArm(rightSpeed);
+    m_subsystem.runLeftArm(leftSpeed);
   }
 
   // Called once the command ends or is interrupted.

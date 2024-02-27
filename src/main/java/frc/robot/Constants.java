@@ -28,7 +28,7 @@ public final class Constants {
      */
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.48895;
 
-    public static final int MAX_SPEED = 5000;
+    public static final int MAX_SPEED = 5800;
 
     // OFFSET values changed on 1/14/23 to fix widebot conumdrum
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
@@ -93,6 +93,7 @@ public final class Constants {
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
     public static final double MAX_SCREW_INCHES = 6.25;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
+    public static final double SCREW_SPEED = 0.4;
 
     public static final double EXTENSION_BEFORE_SCREW = 8.25;
     public static final double SCREW_HINGE_DROPDOWN = 1.9;
