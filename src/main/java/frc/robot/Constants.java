@@ -83,6 +83,7 @@ public final class Constants {
 
     // SCREW ACTUATOR CONSTANTS
     public static final int SCREW_MOTOR_ID = 21;
+    public static final int HINGE_ENCODER_ID = 0;
 
     public static final double SCREW_KP = 0.0048;
     public static final double SCREW_KI = 0.0025;

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -11,10 +12,12 @@ import frc.robot.wrappers.NEO;
 
 public class ScrewSubsystem extends SubsystemBase {
   private final NEO screwMotor;
+  private final DutyCycleEncoder hingeEncoder;
 
   /** Creates a new ScrewSubsystem. */
   public ScrewSubsystem() {
     this.screwMotor = new NEO(Constants.SCREW_MOTOR_ID);
+    this.hingeEncoder = new DutyCycleEncoder(Constants.HINGE_ENCODER_ID);
 
     screwMotor.configurePIDFF(Constants.SCREW_KP, Constants.SCREW_KI, Constants.SCREW_KD);
   }
