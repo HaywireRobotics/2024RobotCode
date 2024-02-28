@@ -71,7 +71,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         // frontLeft is a problem child and wants to have its own PID values :(
         // this.frontLeft.setRotationPID(0.002, 0.000, 0.00001);
-        
+        this.zeroHeading();
     }
 
     public void setFrontRight(SwerveModuleState state) {
@@ -108,7 +108,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        headingOffset = navx.getYaw();
+        headingOffset = -navx.getYaw();
     }
 
     public double getNavx() {

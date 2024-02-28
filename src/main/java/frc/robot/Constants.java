@@ -90,13 +90,17 @@ public final class Constants {
     public static final double SCREW_KI = 0.0025;
     public static final double SCREW_KD = 0.00001;
 
+    public static final double HINGE_KP = 100.0;
+    public static final double HINGE_KI = 0.00;
+    public static final double HINGE_KD = 0.0000;
+
     public static final double SCREW_GEAR_RATIO = 5/1;
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
     public static final double MAX_SCREW_INCHES = 6.25;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
-    public static final double HINGE_MAX_ANGLE = 0.88;
-    public static final double HINGE_MIN_ANGLE = 0.78;
-    public static final double SCREW_SPEED = 0.4;
+    public static final double HINGE_MAX_ANGLE = 0.89;
+    public static final double HINGE_MIN_ANGLE = 0.795;
+    public static final double SCREW_SPEED = 0.6;
 
     public static final double EXTENSION_BEFORE_SCREW = 8.25;
     public static final double SCREW_HINGE_DROPDOWN = 1.9;

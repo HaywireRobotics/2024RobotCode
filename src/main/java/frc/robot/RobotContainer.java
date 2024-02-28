@@ -13,6 +13,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewPercentCommand;
+import frc.robot.commands.ScrewSetpointCommand;
 import frc.robot.commands.ShootPercentCommand;
 import frc.robot.commands.ShootWhenReady;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -31,6 +32,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -99,6 +101,8 @@ public class RobotContainer {
 
     m_manipulatorController.povDown().whileTrue(new ScrewPercentCommand(m_screwSubsystem, Constants.SCREW_SPEED));
     m_manipulatorController.povUp().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -Constants.SCREW_SPEED));
+
+    m_manipulatorController.povLeft().onTrue(new ScrewSetpointCommand(m_screwSubsystem, 0.85));
   }
 
   public void disable() {
@@ -106,6 +110,7 @@ public class RobotContainer {
   }
   public void enable() {
     m_drivetrainSubsystem.enable();
+    m_drivetrainSubsystem.zeroHeading();
   }
 
   /**
@@ -121,11 +126,14 @@ public class RobotContainer {
     //   new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
     // ).withTimeout(7);
 
-    Command auto = new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).andThen(
-    new AutoDriveState(
-      m_drivetrainSubsystem, 
-      new SwerveModuleState(2000, Rotation2d.fromDegrees(180.0))
-    )).withTimeout(5);
+    Command auto = 
+    new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).withTimeout(3)
+    .andThen(
+      new AutoDriveState(
+        m_drivetrainSubsystem, 
+        new SwerveModuleState(2000, Rotation2d.fromDegrees(180.0))
+      )
+    ).withTimeout(5);
 
     return auto;
 

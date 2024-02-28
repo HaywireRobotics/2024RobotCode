@@ -15,7 +15,7 @@ public class ScrewSubsystem extends SubsystemBase {
   private final NEO screwMotor;
   private final DutyCycleEncoder hingeEncoder;
 
-  // private final PIDController screwController;
+  public final PIDController hingeController;
 
   /** Creates a new ScrewSubsystem. */
   public ScrewSubsystem() {
@@ -24,6 +24,7 @@ public class ScrewSubsystem extends SubsystemBase {
     hingeEncoder.setDistancePerRotation(360.0);
 
     screwMotor.configurePIDFF(Constants.SCREW_KP, Constants.SCREW_KI, Constants.SCREW_KD);
+    this.hingeController = new PIDController(Constants.HINGE_KP, Constants.HINGE_KI, Constants.HINGE_KD);
   }
 
   public void runScrew(double speed) {
@@ -81,6 +82,10 @@ public class ScrewSubsystem extends SubsystemBase {
   }
   public double getScrewExtensionInches() {
     return this.getScrewRotations() * Constants.SCREW_ROTATIONS_PER_INCH;
+  }
+
+  public double getHingeAngle() {
+    return this.hingeEncoder.getAbsolutePosition();
   }
 
   public void setScrewRaw(double rawRotations) {
