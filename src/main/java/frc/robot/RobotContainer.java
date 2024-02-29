@@ -4,12 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoDriveState;
-import frc.robot.commands.AutoFollowAprilTag;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.FeedCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewPercentCommand;
@@ -18,28 +23,19 @@ import frc.robot.commands.ShootPercentCommand;
 import frc.robot.commands.ShootWhenReady;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ScrewSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.common.hardware.VisionLEDMode;
-
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.wrappers.AutoCommands;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -54,6 +50,11 @@ public class RobotContainer {
   private final CommandXboxController m_driveController = new CommandXboxController(0);
   private final CommandXboxController m_manipulatorController = new CommandXboxController(1);
 
+  private final AutoCommands m_autoCommands = new AutoCommands(m_drivetrainSubsystem, m_shooterSubsystem,
+      m_screwSubsystem, m_intakeSubsystem, m_feederSubsystem);
+
+  private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+  
   // private final PhotonCamera m_camera = new PhotonCamera("banana");
 
   public final DefaultDriveCommand defaultDriveCommand;
@@ -68,25 +69,41 @@ public class RobotContainer {
 
     // m_camera.setLED(VisionLEDMode.kOff);
 
+    m_autoChooser.setDefaultOption("Shoot Then Drive", m_autoCommands.ShootDrive());
+    m_autoChooser.addOption("Shoot Do Nothing", m_autoCommands.ShootDoNothing());
+    m_autoChooser.addOption("Drive Only", m_autoCommands.DriveOnly());
+    m_autoChooser.addOption("Drive With Intake", m_autoCommands.DriveWithIntake());
+    m_autoChooser.addOption("Shoot Drive Intake", m_autoCommands.ShootDriveIntake());
+    m_autoChooser.addOption("Your Mother", new InstantCommand());
+
     // Configure the trigger bindings
     configureBindings();
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
     m_driveController.y().onTrue(new InstantCommand(m_drivetrainSubsystem::toggleFieldCentricDrive));
     m_driveController.b().onTrue(new InstantCommand(m_drivetrainSubsystem::zeroHeading));
 
-    m_driveController.x().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(1800); }));
-    m_driveController.a().onTrue(new InstantCommand(() -> { m_drivetrainSubsystem.setDriveSpeed(4999); }));
+    m_driveController.x().onTrue(new InstantCommand(() -> {
+      m_drivetrainSubsystem.setDriveSpeed(1800);
+    }));
+    m_driveController.a().onTrue(new InstantCommand(() -> {
+      m_drivetrainSubsystem.setDriveSpeed(4999);
+    }));
 
     m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
@@ -108,6 +125,7 @@ public class RobotContainer {
   public void disable() {
     m_drivetrainSubsystem.disable();
   }
+
   public void enable() {
     m_drivetrainSubsystem.enable();
     m_drivetrainSubsystem.zeroHeading();
@@ -121,28 +139,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     m_drivetrainSubsystem.enable();
 
-    // return new AutoDriveState(
-    //   m_drivetrainSubsystem, 
-    //   new SwerveModuleState(537, Rotation2d.fromDegrees(0.0))
-    // ).withTimeout(7);
-
-    Command auto = 
-    new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).withTimeout(3)
-    .andThen(
-      new AutoDriveState(
-        m_drivetrainSubsystem, 
-        new SwerveModuleState(2000, Rotation2d.fromDegrees(180.0))
-      )
-    ).withTimeout(5);
-
-    return auto;
-
-    // return new InstantCommand(() -> { m_screwSubsystem.runScrew(0.2); })
-    //       .withTimeout(3)
-    //       .andThen(new InstantCommand(m_screwSubsystem::stopScrew));
-
-    // return new AutoFollowAprilTag(m_drivetrainSubsystem, m_camera);
-
-    // return new InstantCommand();
+    // return m_autoCommands.ShootDriveCommand();
+    return m_autoChooser.getSelected();
   }
 }
