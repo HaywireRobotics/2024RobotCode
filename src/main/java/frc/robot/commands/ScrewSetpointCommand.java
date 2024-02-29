@@ -4,8 +4,13 @@
 
 package frc.robot.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ScrewSubsystem;
+import frc.robot.util.Statics;
 
 public class ScrewSetpointCommand extends Command {
   private final ScrewSubsystem m_subsystem;
@@ -39,8 +44,8 @@ public class ScrewSetpointCommand extends Command {
   }
   
   public boolean isReady() {
-    return Statics.isWithinError(average, setPoint, Constants.HINGE_MARGIN_OF_ERROR) &&
-           Statics.isWithinError(m_subsystem.getHingeAngle(), setPoint, Constants.HINGE_MARGIN_OF_ERROR);
+    return Statics.withinError(average, setpoint, Constants.HINGE_MARGIN_OF_ERROR) &&
+           Statics.withinError(m_subsystem.getHingeAngle(), setpoint, Constants.HINGE_MARGIN_OF_ERROR);
   }
   private final List<Double> addDatapoint(List<Double> list, Double datapoint) {
     list.add(datapoint.doubleValue());
