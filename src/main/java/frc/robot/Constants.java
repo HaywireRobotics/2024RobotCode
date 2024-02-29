@@ -93,6 +93,7 @@ public final class Constants {
     public static final double HINGE_KP = 100.0;
     public static final double HINGE_KI = 0.00;
     public static final double HINGE_KD = 0.0000;
+    public static final double HINGE_MARGIN_OF_ERROR = 0.005;
 
     public static final double SCREW_GEAR_RATIO = 5/1;
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
