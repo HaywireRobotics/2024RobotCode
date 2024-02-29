@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoDriveState;
@@ -76,8 +77,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive Only", m_autoCommands.DriveOnly());
     m_autoChooser.addOption("Drive With Intake", m_autoCommands.DriveWithIntake());
     m_autoChooser.addOption("Shoot Drive Intake", m_autoCommands.ShootDriveIntake());
-    m_autoChooser.addOption("Your Mother", new InstantCommand());
-    SmartDashboard.putData(m_autoChooser);
+    m_autoChooser.addOption("Your Mother", new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
+    SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
     CameraServer.startAutomaticCapture();
 
@@ -103,12 +104,12 @@ public class RobotContainer {
     m_driveController.y().onTrue(new InstantCommand(m_drivetrainSubsystem::toggleFieldCentricDrive));
     m_driveController.b().onTrue(new InstantCommand(m_drivetrainSubsystem::zeroHeading));
 
-    m_driveController.x().onTrue(new InstantCommand(() -> {
-      m_drivetrainSubsystem.setDriveSpeed(1800);
-    }));
-    m_driveController.a().onTrue(new InstantCommand(() -> {
-      m_drivetrainSubsystem.setDriveSpeed(4999);
-    }));
+    // m_driveController.x().onTrue(new InstantCommand(() -> {
+    //   m_drivetrainSubsystem.setDriveSpeed(1800);
+    // }));
+    // m_driveController.a().onTrue(new InstantCommand(() -> {
+    //   m_drivetrainSubsystem.setDriveSpeed(Constants.MAX_SPEED);
+    // }));
 
     m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
@@ -116,7 +117,7 @@ public class RobotContainer {
     m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
+    m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.3));
     m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 1.0));
     m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
     m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
@@ -124,7 +125,8 @@ public class RobotContainer {
     m_manipulatorController.povDown().whileTrue(new ScrewPercentCommand(m_screwSubsystem, Constants.SCREW_SPEED));
     m_manipulatorController.povUp().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -Constants.SCREW_SPEED));
 
-    m_manipulatorController.povLeft().onTrue(new ScrewSetpointCommand(m_screwSubsystem, 0.85));
+    m_manipulatorController.povLeft().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
+    m_manipulatorController.povRight().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT));
   }
 
   public void disable() {

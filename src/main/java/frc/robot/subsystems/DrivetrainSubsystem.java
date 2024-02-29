@@ -124,7 +124,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void setDriveSpeed(double speed) {
-        if (speed > 0 && speed < Constants.MAX_SPEED) {
+        if (speed >= 0 && speed <= Constants.MAX_SPEED) {
             currentDriveSpeed = speed;
         }
     }

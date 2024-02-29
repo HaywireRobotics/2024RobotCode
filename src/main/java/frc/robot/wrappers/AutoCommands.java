@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewSetpointCommand;
@@ -44,13 +45,16 @@ public class AutoCommands {
 
   public Command ShootDoNothing() {
     return Commands.sequence(
-        new ScrewSetpointCommand(m_screwSubsystem, 0.85).withTimeout(3),
+        new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
         new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).withTimeout(3));
   }
 
   public Command DriveOnly() {
-    return new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(5);
+    return Commands.parallel(
+      new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(3.5)
+        );
   }
 
   public Command DriveWithIntake() {
