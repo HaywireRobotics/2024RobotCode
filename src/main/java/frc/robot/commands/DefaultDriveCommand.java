@@ -54,9 +54,9 @@ public class DefaultDriveCommand extends Command {
         leftY = leftVector.y;
         // System.out.println(leftVector.toString());
 
-        double mirrorField = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? 1.0 : -1.0;
+        // double mirrorField = DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? 1.0 : -1.0;
 
-        m_subsystem.driveArcade(teleopSpeedMultiplier*leftX*mirrorField, teleopSpeedMultiplier*leftY*mirrorField, teleopSpeedMultiplier*rightX);
+        m_subsystem.driveArcade(teleopSpeedMultiplier*leftX, teleopSpeedMultiplier*leftY, -teleopSpeedMultiplier*rightX);
       
         /* Odometry */
         m_subsystem.updateOdometry();

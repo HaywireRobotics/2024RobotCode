@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.wrappers.NEO;
@@ -12,6 +14,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem () {
         this.topMotor = new NEO(Constants.TOP_INTAKE_MOTOR_ID);
         this.bottomMotor = new NEO(Constants.BOTTOM_INTAKE_MOTOR_ID);
+
+        topMotor.setIdleMode(IdleMode.kCoast);
+        bottomMotor.setIdleMode(IdleMode.kCoast);
     }
 
     public void driveIntake() {

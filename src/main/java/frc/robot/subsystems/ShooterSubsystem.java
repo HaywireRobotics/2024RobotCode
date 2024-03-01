@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     this.leftShootMotor = new NEO(Constants.LEFT_SHOOT_MOTOR_ID);
     this.rightShootMotor = new NEO(Constants.RIGHT_SHOOT_MOTOR_ID);
+
+    leftShootMotor.setIdleMode(IdleMode.kCoast);
+    rightShootMotor.setIdleMode(IdleMode.kCoast);
 
     leftShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);
     rightShootMotor.configurePIDFF(Constants.SHOOTER_KP, Constants.SHOOTER_KI, Constants.SHOOTER_KD);

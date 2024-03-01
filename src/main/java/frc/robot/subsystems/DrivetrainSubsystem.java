@@ -166,6 +166,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRight.putSpeedSmartDashboard();
         backLeft.putSpeedSmartDashboard();
 
+        frontRight.putRPMSmartDashboard();
+        frontLeft.putRPMSmartDashboard();
+        backRight.putRPMSmartDashboard();
+        backLeft.putRPMSmartDashboard();
+
         SmartDashboard.putNumber("Gyro", navx.getAngle());
         SmartDashboard.putNumber("Yaw", navx.getYaw());
         SmartDashboard.putNumber("Compass", navx.getCompassHeading());
@@ -183,10 +188,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         double rotateSpeed = currentDriveSpeed * aSpeed;
 
         // different signs accounts for orientation of modules
-        SwerveModuleState frontLeftRotate =  new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState frontRightRotate = new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState backLeftRotate =   new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
-        SwerveModuleState backRightRotate =  new SwerveModuleState( rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState frontLeftRotate =  new SwerveModuleState(rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState frontRightRotate = new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState backLeftRotate =   new SwerveModuleState(rotateSpeed, Rotation2d.fromDegrees( Constants.DRIVE_THETA_OFFSET));
+        SwerveModuleState backRightRotate =  new SwerveModuleState(-rotateSpeed, Rotation2d.fromDegrees(-Constants.DRIVE_THETA_OFFSET));
 
         setFrontLeft(this.addStates(frontLeftDrive, frontLeftRotate));
         setFrontRight(this.addStates(frontRightDrive, frontRightRotate));
@@ -220,7 +225,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveArcade(double xSpeed, double ySpeed, double aSpeed){
         double driveAngle = 0;
-        if (!(xSpeed == 0 && ySpeed == 0)) {
+        // if (!(xSpeed == 0 && ySpeed == 0)) {
             // driveAngle = Math.toDegrees(Math.atan(leftX / leftY));
             driveAngle = Math.toDegrees(Math.atan2(-xSpeed, ySpeed));
             // adjusts negative angles to be in range of 0 to 360
@@ -233,7 +238,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // } else if (ySpeed == 0) {
             //     driveAngle = 90;
             // }
-        }
+        // }
 
         if (field_centric_drive) {
             driveAngle -= getNavx();
@@ -328,7 +333,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // SmartDashboard.putNumber("V2", frontRight.getSpeedMetersPerSecond());
         // SmartDashboard.putNumber("V3", backLeft.getSpeedMetersPerSecond());
         // SmartDashboard.putNumber("V4", backRight.getSpeedMetersPerSecond());
-
         // SmartDashboard.putNumber("ratio", backLeft.getSpeedMetersPerSecond() / frontLeft.getSpeedMetersPerSecond());
 
         Vector vectorSum =  frontLeftVelocity.add(

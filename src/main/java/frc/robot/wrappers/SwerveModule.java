@@ -88,6 +88,8 @@ public class SwerveModule {
 
     public void setStateRPM(SwerveModuleState state) {
         desiredState = SwerveModuleState.optimize(state, Rotation2d.fromDegrees(getRotationAbsolute()));
+        double clampedSpeed = Statics.clamp(desiredState.speedMetersPerSecond, -Constants.TRUE_MAX_SPEED, Constants.TRUE_MAX_SPEED);
+        desiredState = new SwerveModuleState(clampedSpeed, desiredState.angle);
 
         if ( isEnabled() ){
             // If drive is stoped, hold last angle.
@@ -199,6 +201,10 @@ public class SwerveModule {
 
     public void putSpeedSmartDashboard() {
         SmartDashboard.putNumber("Module " + getID() + " Speed", Math.abs(getSpeedMetersPerSecond()));
+    }
+
+    public void putRPMSmartDashboard() {
+        SmartDashboard.putNumber("Module " + getID() + " RPMs", Math.abs(driveMotor.getVelocity()));
     }
 
     /* Odometry */
