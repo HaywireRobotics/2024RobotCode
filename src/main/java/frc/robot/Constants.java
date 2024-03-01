@@ -93,14 +93,14 @@ public final class Constants {
     public static final double HINGE_KP = 70.0;
     public static final double HINGE_KI = 0.00;
     public static final double HINGE_KD = 0.1;
-    public static final double HINGE_MARGIN_OF_ERROR = 0.0025;
+    public static final double HINGE_MARGIN_OF_ERROR = 0.002;
 
     public static final double SCREW_GEAR_RATIO = 5/1;
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
     public static final double MAX_SCREW_INCHES = 6.25;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
-    public static final double HINGE_MAX_ANGLE = 0.89;
-    public static final double HINGE_MIN_ANGLE = 0.795;
+    public static final double HINGE_MAX_ANGLE = .545; // 0.89
+    public static final double HINGE_MIN_ANGLE = 0.47; // 0.795
     public static final double SCREW_SPEED = 0.75;
 
     public static final double EXTENSION_BEFORE_SCREW = 8.25;
@@ -109,8 +109,8 @@ public final class Constants {
     public static final double SCREW_MOTOR_HEIGHT = 7.5;
     public static final double SHOOTER_HINGE_X = 4;
 
-    public static final double SPEAKER_SETPOINT = 0.86;
-    public static final double AMP_SETPOINT = 0.844;
+    public static final double SPEAKER_SETPOINT = 0.526;
+    public static final double AMP_SETPOINT = 0.519;
 
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 10;

@@ -19,11 +19,11 @@ public class ShootWhenReady extends Command {
   private final Timer timer;
 
   /** Creates a new ShootWhenReady. */
-  public ShootWhenReady(ShooterSubsystem subsystem, FeederSubsystem feederSubsystem, IntakeSubsystem intakeSubsystem, double speed) {
+  public ShootWhenReady(ShooterSubsystem subsystem, FeederSubsystem feederSubsystem, IntakeSubsystem intakeSubsystem, double percentSpeed) {
     this.m_subsystem = subsystem;
     this.m_feederSubsystem = feederSubsystem;
     this.m_intakeSubsystem = intakeSubsystem;
-    this.speed = speed/5000.0;
+    this.speed = percentSpeed;
     this.timer = new Timer();
 
     addRequirements(subsystem);

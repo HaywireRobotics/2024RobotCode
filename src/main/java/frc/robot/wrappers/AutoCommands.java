@@ -46,7 +46,7 @@ public class AutoCommands {
   public Command ShootDoNothing() {
     return Commands.sequence(
         new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
-        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 5000).withTimeout(3));
+        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 1.0).withTimeout(3));
   }
 
   public Command DriveOnly() {

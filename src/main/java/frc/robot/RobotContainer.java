@@ -114,6 +114,13 @@ public class RobotContainer {
     m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
+    m_driveController.rightTrigger().onTrue(new InstantCommand(() -> {
+      m_drivetrainSubsystem.setDriveSpeed(5000);
+    }));
+    m_driveController.rightTrigger().onFalse(new InstantCommand(() -> {
+      m_drivetrainSubsystem.setDriveSpeed(Constants.MAX_SPEED);
+    }));
+
     m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
