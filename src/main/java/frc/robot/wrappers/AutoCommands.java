@@ -46,14 +46,14 @@ public class AutoCommands {
   public Command ShootDoNothing() {
     return Commands.sequence(
         new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
-        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 1.0).withTimeout(3));
+        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 1.0).withTimeout(2.5));
   }
 
   public Command DriveOnly() {
     return Commands.parallel(
       new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
       new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(3.5)
+        .withTimeout(3)
         );
   }
 
@@ -61,13 +61,29 @@ public class AutoCommands {
     return Commands.parallel(
       new IntakeCommand(m_intakeSubsystem),
       this.DriveOnly()
-    ).withTimeout(6);
+    ).withTimeout(4);
   }
 
   public Command ShootDriveIntake() {
     return Commands.sequence(
       this.ShootDoNothing(),
       this.DriveWithIntake()
+    );
+  }
+
+  public Command TwoNote() {
+    return Commands.sequence(
+      this.ShootDriveIntake(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(3.5),
+      this.ShootDoNothing()
+    );
+  }
+
+  public Command TwoNoteDriveOut() {
+    return Commands.sequence(
+      this.TwoNote(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(5000, Rotation2d.fromDegrees(180.0)))
     );
   }
 }

@@ -77,6 +77,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive Only", m_autoCommands.DriveOnly());
     m_autoChooser.addOption("Drive With Intake", m_autoCommands.DriveWithIntake());
     m_autoChooser.addOption("Shoot Drive Intake", m_autoCommands.ShootDriveIntake());
+    m_autoChooser.addOption("Two Note", m_autoCommands.TwoNote());
+    m_autoChooser.addOption("Two Note Drive Again", m_autoCommands.TwoNoteDriveOut());
     m_autoChooser.addOption("Your Mother", new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
