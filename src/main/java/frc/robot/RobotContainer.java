@@ -74,7 +74,7 @@ public class RobotContainer {
 
     m_autoChooser.setDefaultOption("Shoot Then Drive", m_autoCommands.ShootDrive());
     m_autoChooser.addOption("Shoot Do Nothing", m_autoCommands.ShootDoNothing());
-    m_autoChooser.addOption("Drive Only", m_autoCommands.DriveOnly());
+    m_autoChooser.addOption("Autobots Role Out", m_autoCommands.DriveOnly());
     m_autoChooser.addOption("Drive With Intake", m_autoCommands.DriveWithIntake());
     m_autoChooser.addOption("Shoot Drive Intake", m_autoCommands.ShootDriveIntake());
     m_autoChooser.addOption("Two Note", m_autoCommands.TwoNote());
