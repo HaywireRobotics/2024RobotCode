@@ -35,7 +35,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public ADXRS450_Gyro m_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
     public AHRS navx = new AHRS(SPI.Port.kMXP);
 
-    public boolean field_centric_drive = true;
+    public boolean field_centric_drive = false;
 
     /* Odometry */
     public Vector frontLeftVelocity = new Vector();
@@ -108,12 +108,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
 
     public void zeroHeading() {
-        headingOffset = -navx.getYaw();
+        // headingOffset = -navx.getYaw();
+        navx.reset();
+        compassOffset = navx.getCompassHeading();
     }
 
     public double getNavx() {
         // return -m_gyro.getAngle() + headingOffset;
-        return -navx.getYaw() + headingOffset + compassOffset;
+        // return -navx.getYaw() + headingOffset + compassOffset;
+        return navx.getCompassHeading() - compassOffset;
     }
 
     public double getGyroRoll() {
@@ -171,6 +174,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         backRight.putRPMSmartDashboard();
         backLeft.putRPMSmartDashboard();
 
+        SmartDashboard.putBoolean("Field Centric", field_centric_drive);
+        SmartDashboard.putNumber("Adjusted Angle", getNavx());
         SmartDashboard.putNumber("Gyro", navx.getAngle());
         SmartDashboard.putNumber("Yaw", navx.getYaw());
         SmartDashboard.putNumber("Compass", navx.getCompassHeading());
@@ -178,7 +183,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveVector(double speed, double direction, double aSpeed, boolean fieldCentric) {
         double driveSpeed = speed;
-        double driveAngle = -(direction + (fieldCentric ? getNavx() : 0));  // field-centric
+        double driveAngle = -(direction + (fieldCentric ? -navx.getYaw() : 0));  // field-centric
 
         SwerveModuleState frontLeftDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
         SwerveModuleState frontRightDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
@@ -229,9 +234,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // driveAngle = Math.toDegrees(Math.atan(leftX / leftY));
             driveAngle = Math.toDegrees(Math.atan2(-xSpeed, ySpeed));
             // adjusts negative angles to be in range of 0 to 360
-            if (driveAngle < 0) {
-                driveAngle += 360;
-            }
+            // if (driveAngle < 0) {
+            //     driveAngle += 360;
+            // }
 
             // if (xSpeed == 0) {
             //     driveAngle = 0;
@@ -240,13 +245,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
             // }
         // }
 
-        if (field_centric_drive) {
-            driveAngle -= getNavx();
-        }
+        // if (field_centric_drive) {
+        //     driveAngle -= getNavx();
+        // }
 
         double rpm = Math.abs(Math.hypot(xSpeed, ySpeed)) * currentDriveSpeed;
 
-        driveVector(rpm, driveAngle, aSpeed);
+        driveVector(rpm, driveAngle, aSpeed, field_centric_drive);
     }
 
     public void lockDrive(){

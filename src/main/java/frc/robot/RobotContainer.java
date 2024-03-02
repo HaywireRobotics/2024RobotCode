@@ -82,7 +82,8 @@ public class RobotContainer {
     m_autoChooser.addOption("Your Mother", new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
-    CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture(0);
+    CameraServer.startAutomaticCapture(1);
 
     // Configure the trigger bindings
     configureBindings();
