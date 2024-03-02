@@ -110,13 +110,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void zeroHeading() {
         // headingOffset = -navx.getYaw();
         navx.reset();
+        headingOffset = navx.getPitch();
         compassOffset = navx.getCompassHeading();
     }
 
     public double getNavx() {
         // return -m_gyro.getAngle() + headingOffset;
         // return -navx.getYaw() + headingOffset + compassOffset;
-        return navx.getCompassHeading() - compassOffset;
+        // return navx.getCompassHeading() - compassOffset;
+        return navx.getPitch() - headingOffset;
     }
 
     public double getGyroRoll() {
@@ -183,7 +185,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     public void driveVector(double speed, double direction, double aSpeed, boolean fieldCentric) {
         double driveSpeed = speed;
-        double driveAngle = -(direction + (fieldCentric ? -navx.getYaw() : 0));  // field-centric
+        double driveAngle = -(direction + (fieldCentric ? -getNavx() : 0));  // field-centric
 
         SwerveModuleState frontLeftDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
         SwerveModuleState frontRightDrive = new SwerveModuleState(driveSpeed, Rotation2d.fromDegrees(driveAngle));
