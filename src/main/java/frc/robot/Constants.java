@@ -112,7 +112,9 @@ public final class Constants {
     public static final double SHOOTER_HINGE_X = 4;
 
     public static final double SPEAKER_SETPOINT = 0.526;
-    public static final double AMP_SETPOINT = 0.519;
+    public static final double AMP_SETPOINT = 0.524;
+    public static final double SIDE_SETPOINT = 0.527;
+  
 
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 10;
