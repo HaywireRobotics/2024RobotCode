@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -63,6 +66,15 @@ public final class Constants {
                                                                   // see https://www.swervedrivespecialties.com/products/mk4-swerve-module?variant=39376675012721
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
 
+    // CAMERA AND TARGET CONSTANTS
+    public static final double CAMERA_HEIGHT_METERS = 0.5;  // TODO: set to actual value
+    public static final double CAMERA_PITCH_RADIANS = 0.0;
+
+    public static final double SPEAKER_TARGET_HEIGHT_METERS = 1.368; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/Apriltag_Images_and_User_Guide.pdf
+    public static final double SPEAKER_OPENING_BOTTOM = 1.985; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024FieldDrawings.pdf
+    public static final double SPEAKER_OPENING_TOP = 2.105;
+    public static final double SPEAKER_OPENING_HEIGHT_METERS = (SPEAKER_OPENING_TOP + SPEAKER_OPENING_BOTTOM) / 2;
+    public static final int[] SPEAKER_IDS = {3, 4, 7, 8};
 
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;

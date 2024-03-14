@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -58,7 +60,7 @@ public class RobotContainer {
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
   
-  // private final PhotonCamera m_camera = new PhotonCamera("banana");
+  private final PhotonCamera m_camera = new PhotonCamera("banana");
 
   public final DefaultDriveCommand defaultDriveCommand;
   public final DefaultClimbCommand defaultClimbCommand;
