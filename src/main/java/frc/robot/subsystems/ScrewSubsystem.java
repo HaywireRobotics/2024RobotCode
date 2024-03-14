@@ -57,6 +57,7 @@ public class ScrewSubsystem extends SubsystemBase {
   }
 
   // I promise the math is accurate, please don't touch -Eli
+  // https://cdn.discordapp.com/attachments/1056488251529101382/1206832973115293746/IMG_20240212_222252469.jpg?ex=66025bca&is=65efe6ca&hm=e5578119ee5e6054464be6f516805161f55550b696392edb268803c26fa352b8&
   private double inchesToShooterAngle(double inches) {
     double s = inches + Constants.EXTENSION_BEFORE_SCREW;
     double a = Math.sqrt(s*s + Math.pow(Constants.SCREW_HINGE_DROPDOWN, 2));
@@ -75,6 +76,18 @@ public class ScrewSubsystem extends SubsystemBase {
     double s = Math.sqrt(b*b + c*c - Math.pow(Constants.SCREW_HINGE_DROPDOWN, 2) - x);
     double inches = s - Constants.EXTENSION_BEFORE_SCREW;
     return inches;
+  }
+
+  private double shooterAngleToHingeAngle(double shooterAngle) {
+    double alpha = 180 - shooterAngle - Math.atan(Constants.SCREW_MOTOR_HEIGHT / Constants.SHOOTER_HINGE_X);
+    double b = Math.sqrt(Math.pow(Constants.SHOOTER_HINGE_X, 2) + Math.pow(Constants.SCREW_MOTOR_HEIGHT, 2));
+    double c = Constants.SHOOTER_LENGTH_TO_SCREW_HINGE;
+
+    double gamma = Math.asin( (c * Math.sin(alpha)) / Math.sqrt(b*b + c*c - 2*b*c*Math.cos(alpha)) );
+    double s = 1.0; // TODO: calculate s
+    double hingeAngle = gamma + Math.atan(Constants.SHOOTER_HINGE_X / Constants.SCREW_MOTOR_HEIGHT) + Math.atan(Constants.SCREW_HINGE_DROPDOWN / s);
+
+    return hingeAngle;
   }
 
   public double getScrewRotations() {
