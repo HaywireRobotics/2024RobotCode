@@ -101,8 +101,8 @@ public final class Constants {
     public static final double SCREW_ROTATIONS_PER_INCH = 10;
     public static final double MAX_SCREW_INCHES = 6.25;
     public static final double MAX_SCREW_ROTATIONS = MAX_SCREW_INCHES * SCREW_ROTATIONS_PER_INCH;
-    public static final double HINGE_MAX_ANGLE = .545; // 0.89
-    public static final double HINGE_MIN_ANGLE = 0.47; // 0.795
+    public static final double HINGE_MAX_ANGLE = 0.585; // 0.89
+    public static final double HINGE_MIN_ANGLE = 0.468; // 0.795
     public static final double SCREW_SPEED = 0.75;
 
     public static final double EXTENSION_BEFORE_SCREW = 8.25;

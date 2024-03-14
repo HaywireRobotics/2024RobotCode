@@ -178,8 +178,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
         SmartDashboard.putBoolean("Field Centric", field_centric_drive);
         SmartDashboard.putNumber("Adjusted Angle", getNavx());
-        SmartDashboard.putNumber("Gyro", navx.getAngle());
         SmartDashboard.putNumber("Yaw", navx.getYaw());
+        SmartDashboard.putNumber("Pitch", navx.getPitch());
+        SmartDashboard.putNumber("Roll", navx.getRoll());
+        SmartDashboard.putNumber("Angle", navx.getAngle());
         SmartDashboard.putNumber("Compass", navx.getCompassHeading());
     }
 
