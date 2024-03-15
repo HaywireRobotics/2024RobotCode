@@ -12,6 +12,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ScrewSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -51,6 +52,8 @@ public class AimShooter extends Command {
       Units.degreesToRadians(bestTarget.getPitch()));
 
     double shootAngle = Math.atan(Constants.SPEAKER_OPENING_TOP / range);
+    double hingeAngle = m_subsystem.shooterAngleToHingeAngle(shootAngle);
+    m_subsystem.runSetpoint(hingeAngle);
   }
 
   // Called once the command ends or is interrupted.

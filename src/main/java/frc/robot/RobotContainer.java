@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AimShooter;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
@@ -60,7 +61,7 @@ public class RobotContainer {
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
   
-  private final PhotonCamera m_camera = new PhotonCamera("banana");
+  private final PhotonCamera m_camera = new PhotonCamera("photonvision");
 
   public final DefaultDriveCommand defaultDriveCommand;
   public final DefaultClimbCommand defaultClimbCommand;
@@ -147,6 +148,9 @@ public class RobotContainer {
     m_manipulatorController.povLeft().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
     m_manipulatorController.povRight().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT));
     m_manipulatorController.x().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SIDE_SETPOINT));
+
+    m_manipulatorController.start().whileTrue(new AimShooter(m_screwSubsystem, m_camera));
+    // m_manipulatorController.start().whileTrue(new ScrewSetpointCommand(m_screwSubsystem, m_screwSubsystem.shooterAngleToHingeAngle(45)));
   }
 
   public void disable() {

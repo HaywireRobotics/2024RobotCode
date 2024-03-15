@@ -67,8 +67,8 @@ public final class Constants {
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
 
     // CAMERA AND TARGET CONSTANTS
-    public static final double CAMERA_HEIGHT_METERS = 0.5;  // TODO: set to actual value
-    public static final double CAMERA_PITCH_RADIANS = 0.0;
+    public static final double CAMERA_HEIGHT_METERS = 0.6223;  // TODO: set to actual value
+    public static final double CAMERA_PITCH_RADIANS = 0.05;
 
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 1.368; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/Apriltag_Images_and_User_Guide.pdf
     public static final double SPEAKER_OPENING_BOTTOM = 1.985; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024FieldDrawings.pdf
@@ -127,6 +127,8 @@ public final class Constants {
     public static final double AMP_SETPOINT = 0.524;
     public static final double SIDE_SETPOINT = 0.527;
   
+    public static final double HINGE_SHOOTER_M = -434.053;
+    public static final double HINGE_SHOOTER_B = 290.634;
 
     // CLIMBER CONSTANTS
     public static final int LEFT_ARM_ID = 10;

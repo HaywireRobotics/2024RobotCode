@@ -14,11 +14,7 @@ import frc.robot.util.Statics;
 
 public class ScrewSetpointCommand extends Command {
   private final ScrewSubsystem m_subsystem;
-  private double setpoint;
-
-  private final int pointsUntilReady = 75;
-  private List<Double> data = new ArrayList<Double>();
-  private double average = 0.0;
+  private final double setpoint;
 
   /** Creates a new ScrewSetpointCommand. */
   public ScrewSetpointCommand(ScrewSubsystem subsystem, double setpoint) {
@@ -35,34 +31,7 @@ public class ScrewSetpointCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double angle = m_subsystem.getHingeAngle();
-    double calc = m_subsystem.hingeController.calculate(angle, setpoint);
-    m_subsystem.runScrew(-calc);
-    
-    addDatapoint(data, m_subsystem.getHingeAngle());
-    average = calculateAverage(data);
-  }
-  
-  public boolean isReady() {
-    return Statics.withinError(average, setpoint, Constants.HINGE_MARGIN_OF_ERROR) &&
-           Statics.withinError(m_subsystem.getHingeAngle(), setpoint, Constants.HINGE_MARGIN_OF_ERROR);
-  }
-  private final List<Double> addDatapoint(List<Double> list, Double datapoint) {
-    list.add(datapoint.doubleValue());
-    if (list.size() <= this.pointsUntilReady) {
-       return list;
-    } else {
-       list.remove(0);
-       return list;
-    }
-  }
-  private final double calculateAverage(List<Double> list) {
-    if (list.isEmpty()) { return 0.0; }
-    double sum = 0.0;
-    for (Double value : list) {
-      sum += value;
-    }
-    return sum / list.size();
+    m_subsystem.runSetpoint(setpoint);
   }
 
   // Called once the command ends or is interrupted.
@@ -74,6 +43,6 @@ public class ScrewSetpointCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isReady();
+    return m_subsystem.isReady();
   }
 }

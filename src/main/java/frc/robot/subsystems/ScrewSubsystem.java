@@ -4,11 +4,17 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.ScrewSetpointCommand;
+import frc.robot.util.Statics;
 import frc.robot.wrappers.NEO;
 
 public class ScrewSubsystem extends SubsystemBase {
@@ -16,6 +22,11 @@ public class ScrewSubsystem extends SubsystemBase {
   private final DutyCycleEncoder hingeEncoder;
 
   public final PIDController hingeController;
+
+  private double setpoint;
+  private final int pointsUntilReady = 75;
+  private List<Double> data = new ArrayList<Double>();
+  private double average = 0.0;
 
   /** Creates a new ScrewSubsystem. */
   public ScrewSubsystem() {
@@ -35,6 +46,38 @@ public class ScrewSubsystem extends SubsystemBase {
   }
   public void stopScrew() {
     screwMotor.set(0.0);
+  }
+
+  public void runSetpoint(double setpoint) {
+    this.setpoint = setpoint;
+    double angle = this.getHingeAngle();
+    double calc = this.hingeController.calculate(angle, setpoint);
+    this.runScrew(-calc);
+    
+    addDatapoint(data, this.getHingeAngle());
+    average = calculateAverage(data);
+  }
+
+  public boolean isReady() {
+    return Statics.withinError(average, setpoint, Constants.HINGE_MARGIN_OF_ERROR) &&
+           Statics.withinError(this.getHingeAngle(), setpoint, Constants.HINGE_MARGIN_OF_ERROR);
+  }
+  private final List<Double> addDatapoint(List<Double> list, Double datapoint) {
+    list.add(datapoint.doubleValue());
+    if (list.size() <= this.pointsUntilReady) {
+       return list;
+    } else {
+       list.remove(0);
+       return list;
+    }
+  }
+  private final double calculateAverage(List<Double> list) {
+    if (list.isEmpty()) { return 0.0; }
+    double sum = 0.0;
+    for (Double value : list) {
+      sum += value;
+    }
+    return sum / list.size();
   }
   
   public void setPositionInches(double inches) {
@@ -78,16 +121,26 @@ public class ScrewSubsystem extends SubsystemBase {
     return inches;
   }
 
-  private double shooterAngleToHingeAngle(double shooterAngle) {
-    double alpha = 180 - shooterAngle - Math.atan(Constants.SCREW_MOTOR_HEIGHT / Constants.SHOOTER_HINGE_X);
-    double b = Math.sqrt(Math.pow(Constants.SHOOTER_HINGE_X, 2) + Math.pow(Constants.SCREW_MOTOR_HEIGHT, 2));
-    double c = Constants.SHOOTER_LENGTH_TO_SCREW_HINGE;
+  // private double shooterAngleToHingeAngle(double shooterAngle) {
+  //   double alpha = 180 - shooterAngle - Math.atan(Constants.SCREW_MOTOR_HEIGHT / Constants.SHOOTER_HINGE_X);
+  //   double b = Math.sqrt(Math.pow(Constants.SHOOTER_HINGE_X, 2) + Math.pow(Constants.SCREW_MOTOR_HEIGHT, 2));
+  //   double c = Constants.SHOOTER_LENGTH_TO_SCREW_HINGE;
 
-    double gamma = Math.asin( (c * Math.sin(alpha)) / Math.sqrt(b*b + c*c - 2*b*c*Math.cos(alpha)) );
-    double s = 1.0; // TODO: calculate s
-    double hingeAngle = gamma + Math.atan(Constants.SHOOTER_HINGE_X / Constants.SCREW_MOTOR_HEIGHT) + Math.atan(Constants.SCREW_HINGE_DROPDOWN / s);
+  //   double gamma = Math.asin( (c * Math.sin(alpha)) / Math.sqrt(b*b + c*c - 2*b*c*Math.cos(alpha)) );
+  //   double s = 1.0; // TODO: calculate s
+  //   double hingeAngle = gamma + Math.atan(Constants.SHOOTER_HINGE_X / Constants.SCREW_MOTOR_HEIGHT) + Math.atan(Constants.SCREW_HINGE_DROPDOWN / s);
 
-    return hingeAngle;
+  //   return hingeAngle;
+  // }
+  public double hingeAngleToShooterAngle(double hingeAngle) {
+    return Constants.HINGE_SHOOTER_M*hingeAngle + Constants.HINGE_SHOOTER_B;
+  }
+  public double shooterAngleToHingeAngle(double shooterAngle) {
+    return (shooterAngle - Constants.HINGE_SHOOTER_B) / Constants.HINGE_SHOOTER_M;
+  }
+
+  private Command shooterAngleSetpointCommand(double shooterAngle) {
+    return new ScrewSetpointCommand(this, shooterAngleToHingeAngle(shooterAngle));
   }
 
   public double getScrewRotations() {
