@@ -38,11 +38,15 @@ public class ScrewSubsystem extends SubsystemBase {
     this.hingeController = new PIDController(Constants.HINGE_KP, Constants.HINGE_KI, Constants.HINGE_KD);
   }
 
-  public void runScrew(double speed) {
+  public double softStop(double speed) {
     double angle = hingeEncoder.getAbsolutePosition();
-    if (angle <= Constants.HINGE_MIN_ANGLE && speed > 0) { speed = 0; }
-    if (angle >= Constants.HINGE_MAX_ANGLE && speed < 0) { speed = 0; }
-    screwMotor.set(speed);
+    if (angle <= Constants.HINGE_MIN_ANGLE && speed > 0) { return 0; }
+    if (angle >= Constants.HINGE_MAX_ANGLE && speed < 0) { return 0; }
+    return speed;
+  }
+
+  public void runScrew(double speed) {
+    screwMotor.set(softStop(speed));
   }
   public void stopScrew() {
     screwMotor.set(0.0);
@@ -52,7 +56,8 @@ public class ScrewSubsystem extends SubsystemBase {
     this.setpoint = setpoint;
     double angle = this.getHingeAngle();
     double calc = this.hingeController.calculate(angle, setpoint);
-    this.runScrew(-calc);
+    double speed = softStop(-calc);
+    this.runScrew(speed);
     
     addDatapoint(data, this.getHingeAngle());
     average = calculateAverage(data);

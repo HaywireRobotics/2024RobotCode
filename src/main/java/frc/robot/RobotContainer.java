@@ -61,7 +61,7 @@ public class RobotContainer {
 
   private SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
   
-  private final PhotonCamera m_camera = new PhotonCamera("photonvision");
+  private final PhotonCamera m_camera = new PhotonCamera("Camera_Module_v1");
 
   public final DefaultDriveCommand defaultDriveCommand;
   public final DefaultClimbCommand defaultClimbCommand;

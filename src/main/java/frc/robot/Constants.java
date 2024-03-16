@@ -52,7 +52,7 @@ public final class Constants {
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; 
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 6; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 12; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 0.097 - 0.25; 
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = 0.27 + 0.25; 
     public static final boolean BACK_LEFT_REVERSE_DRIVE = true;
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; 
@@ -68,7 +68,7 @@ public final class Constants {
 
     // CAMERA AND TARGET CONSTANTS
     public static final double CAMERA_HEIGHT_METERS = 0.6223;  // TODO: set to actual value
-    public static final double CAMERA_PITCH_RADIANS = 0.05;
+    public static final double CAMERA_PITCH_RADIANS = Math.PI/2 - 0.05;
 
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 1.368; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/Apriltag_Images_and_User_Guide.pdf
     public static final double SPEAKER_OPENING_BOTTOM = 1.985; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024FieldDrawings.pdf
