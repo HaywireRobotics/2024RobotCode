@@ -41,24 +41,24 @@ public class AimShooter extends Command {
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }
 
-    // PhotonTrackedTarget bestTarget = result.getBestTarget();
-    // int id = bestTarget.getFiducialId();
+    PhotonTrackedTarget bestTarget = result.getBestTarget();
+    int id = bestTarget.getFiducialId();
 
     // does nothing if the best target is not a speaker april tag
-    // if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
+    if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
 
-    List<PhotonTrackedTarget> targets = result.getTargets();
-    PhotonTrackedTarget centerTarget = new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
-    for (int i = 0; i < targets.size(); i++) {
-      int id = targets.get(i).getFiducialId();
-      if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) {
-        centerTarget = targets.get(i);
-        break;
-      }
-      if (i == targets.size() - 1) { return; }
-    }
+    // List<PhotonTrackedTarget> targets = result.getTargets();
+    // PhotonTrackedTarget centerTarget = new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
+    // for (int i = 0; i < targets.size(); i++) {
+    //   int id = targets.get(i).getFiducialId();
+    //   if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) {
+    //     centerTarget = targets.get(i);
+    //     break;
+    //   }
+    //   if (i == targets.size() - 1) { return; }
+    // }
 
-    double range =  centerTarget.getBestCameraToTarget().getX();
+    double range =  bestTarget.getBestCameraToTarget().getX();
     double x_distance = range * Math.cos(Constants.CAMERA_PITCH_RADIANS);
 
     SmartDashboard.putNumber("distance to target meters", x_distance);

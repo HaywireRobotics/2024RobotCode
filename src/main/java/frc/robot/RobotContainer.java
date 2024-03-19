@@ -151,8 +151,8 @@ public class RobotContainer {
     m_manipulatorController.povRight().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT));
     m_manipulatorController.x().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SIDE_SETPOINT));
 
-    m_manipulatorController.start().whileTrue(new AimShooter(m_screwSubsystem, m_camera));
-    m_driveController.start().whileTrue(new AlignBot(m_drivetrainSubsystem, m_camera));
+    m_driveController.povUp().whileTrue(new AimShooter(m_screwSubsystem, m_camera));
+    m_driveController.povDown().whileTrue(new AlignBot(m_drivetrainSubsystem, m_camera));
 
     // m_manipulatorController.start().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_camera), new AlignBot(m_drivetrainSubsystem, m_camera)));
   }
