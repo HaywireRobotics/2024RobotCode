@@ -33,7 +33,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public SwerveModuleState backRightState = new SwerveModuleState(0, Rotation2d.fromDegrees(backRightDefault));
     public SwerveModuleState backLeftState = new SwerveModuleState(0, Rotation2d.fromDegrees(backLeftDefault));
 
-    public ADXRS450_Gyro m_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+    // public ADXRS450_Gyro m_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
     public AHRS navx = new AHRS(SPI.Port.kMXP);
 
     public boolean field_centric_drive = false;
@@ -50,7 +50,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double headingOffset = 0.0;
     private double compassOffset = 0.0;
 
-    private double currentDriveSpeed = Constants.MAX_SPEED;
+    public double currentDriveSpeed = Constants.MAX_SPEED;
     
     public DrivetrainSubsystem() {
         this.frontRight = new SwerveModule(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, 
@@ -68,6 +68,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
         // frontLeft is a problem child and wants to have its own PID values :(
         // this.frontLeft.setRotationPID(0.002, 0.000, 0.00001);
+        
         this.zeroHeading();
     }
 
@@ -91,14 +92,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setBackLeft(state);
     }
 
-    public void resetGyroscope() {
-        headingOffset = 0;
-        m_gyro.reset();
-    }
-    public void resetGyroscope(double value) {
-        headingOffset = value;
-        m_gyro.reset();
-    }
+    // public void resetGyroscope() {
+    //     headingOffset = 0;
+    //     m_gyro.reset();
+    // }
+    // public void resetGyroscope(double value) {
+    //     headingOffset = value;
+    //     m_gyro.reset();
+    // }
 
     public void setGyroOffset(double x) {
         headingOffset = x;
@@ -107,7 +108,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void zeroHeading() {
         // headingOffset = -navx.getYaw();
         navx.reset();
-        headingOffset = navx.getPitch();
+        headingOffset = navx.getAngle();
         compassOffset = navx.getCompassHeading();
     }
 
@@ -115,7 +116,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // return -m_gyro.getAngle() + headingOffset;
         // return -navx.getYaw() + headingOffset + compassOffset;
         // return navx.getCompassHeading() - compassOffset;
-        return navx.getPitch() - headingOffset;
+        return navx.getAngle() - headingOffset;
     }
 
     public double getGyroRoll() {
@@ -297,7 +298,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         this.translation.x = x;
         this.translation.y = y;
         // this.headingOffset = a-this.getNavx();
-        resetGyroscope(a);
+        // resetGyroscope(a);
         // this.heading = a;
     }
     public void resetPose(){

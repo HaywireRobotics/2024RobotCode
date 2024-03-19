@@ -34,8 +34,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeed(double speed) {
-    shootMotor.setVelocity(-speed);
+    shootMotor.setVelocity(speed);
     setPoint = speed;
+  }
+  public void setShooterMetersPerSecond(double speed) {
+    this.setShooterSpeed(this.metersPerSecondToShooterVelocity(speed));
   }
   public void runShooterPercent(double percent) {
     shootMotor.set(percent);
@@ -71,11 +74,21 @@ public class ShooterSubsystem extends SubsystemBase {
     return sum / list.size();
   }
 
+  public double getWheelSpeedMetersPerSecond() {
+    return Constants.SHOOTER_GEAR_RATIO * shootMotor.getVelocity() * Constants.SHOOTER_WHEEL_CIRCUMFERENCE / 60;
+  }
+  private double motorVelocityToMetersPerSecond(double speed) {
+    return Constants.SHOOTER_GEAR_RATIO * speed * Constants.SHOOTER_WHEEL_CIRCUMFERENCE / 60;
+  }
+  private double metersPerSecondToShooterVelocity(double speed) {
+    return 60 * (speed / (Constants.SHOOTER_GEAR_RATIO * Constants.SHOOTER_WHEEL_CIRCUMFERENCE));
+  }
+
   @Override
   public void periodic() {
     addDatapoint(leftData, shootMotor.getVelocity());
     leftAverage = calculateAverage(leftData);
 
-    SmartDashboard.putNumber("Left Shooter Speed", shootMotor.getVelocity());
+    SmartDashboard.putNumber("Shooter Wheel Speed", this.getWheelSpeedMetersPerSecond());
   }
 }

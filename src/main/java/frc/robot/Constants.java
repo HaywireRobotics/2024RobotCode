@@ -66,21 +66,30 @@ public final class Constants {
                                                                   // see https://www.swervedrivespecialties.com/products/mk4-swerve-module?variant=39376675012721
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
 
-    public static final double ROTATION_KP = 0.017;
+    public static final double ROTATION_KP = 0.012;
     public static final double ROTATION_KI = 0;
-    public static final double ROTATION_KD = 0;
+    public static final double ROTATION_KD = 0.001;
+
+    public static final double TRANSLATION_KP = 1.0;
+    public static final double TRANSLATION_KI = 0;
+    public static final double TRANSLATION_KD = 0.01;
 
     // CAMERA AND TARGET CONSTANTS
     public static final double CAMERA_HEIGHT_METERS = 0.6223;  // TODO: set to actual value
-    public static final double CAMERA_PITCH_RADIANS = Math.toRadians(30);
+    public static final double CAMERA_PITCH_RADIANS = Math.toRadians(22);
+    public static final double SHOOTER_HINGE_ELEVATION_METERS = 0.127;
+    public static final double SHOOTER_CAMERA_OFFSET_METERS = 0.2032;
 
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 1.368; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/Apriltag_Images_and_User_Guide.pdf
     public static final double SPEAKER_OPENING_BOTTOM = 1.985; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024FieldDrawings.pdf
     public static final double SPEAKER_OPENING_TOP = 2.105;
     public static final double SPEAKER_GOAL_X_OFFSET = 0.23;
     public static final double SPEAKER_OPENING_HEIGHT_METERS = (SPEAKER_OPENING_TOP + SPEAKER_OPENING_BOTTOM) / 2;
+    public static final double SPEAKER_TIPPY_TOP_METERS = 2.489;
     public static final int[] SPEAKER_RIGHT_IDS = {3, 7};
     public static final int[] SPEAKER_CENTER_IDS = {4, 8};
+    
+    public static final int[] AMP_IDS = {5, 6};
 
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;
@@ -93,9 +102,13 @@ public final class Constants {
 
     public static final double SHOOTER_KP = 0.0007;
     public static final double SHOOTER_KI = 0.0;
-    public static final double SHOOTER_KD = 0.0;
+    public static final double SHOOTER_KD = 0.00001;
 
     public static final double SHOOT_MARGIN_OF_ERROR = 50.0;
+    public static final double SHOOTER_GEAR_RATIO = 18 / 14;
+    public static final double SHOOTER_WHEEL_DIAMETER = 0.054;
+    public static final double SHOOTER_WHEEL_CIRCUMFERENCE = SHOOTER_WHEEL_DIAMETER * Math.PI;
+    public static final double TYPICAL_SPEED = 11;
 
     // FEEDER CONSTANTS
     public static final int FEEDER_MOTOR_ID = 27;

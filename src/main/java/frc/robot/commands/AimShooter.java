@@ -18,14 +18,17 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ScrewSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.util.Statics;
 
 public class AimShooter extends Command {
   private final ScrewSubsystem m_subsystem;
+  private final ShooterSubsystem m_shooterSubsystem;
   private final PhotonCamera m_camera;
 
   /** Creates a new AimShooter. */
-  public AimShooter(ScrewSubsystem subsystem, PhotonCamera camera) {
+  public AimShooter(ScrewSubsystem subsystem, ShooterSubsystem shooterSubsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
+    this.m_shooterSubsystem = shooterSubsystem;
     this.m_camera = camera;
 
     addRequirements(subsystem);
@@ -59,12 +62,19 @@ public class AimShooter extends Command {
     // }
 
     double range =  bestTarget.getBestCameraToTarget().getX();
-    double x_distance = range * Math.cos(Constants.CAMERA_PITCH_RADIANS);
+    double x_distance = range * Math.cos(Constants.CAMERA_PITCH_RADIANS) - Constants.SHOOTER_CAMERA_OFFSET_METERS;
 
     SmartDashboard.putNumber("distance to target meters", x_distance);
 
-    double shootAngle = Math.toDegrees(Math.atan(Constants.SPEAKER_OPENING_TOP / (x_distance - Constants.SPEAKER_GOAL_X_OFFSET)));
-    // double shootAngle = Math.toDegrees(Math.asin(range / Constants.SPEAKER_OPENING_TOP));
+    double y_goal_adjustment = Statics.clamp((x_distance - 1.8*1.285) * 0.6, 0, 1);
+    SmartDashboard.putNumber("goal adjustment", y_goal_adjustment);
+    double y_distance = (Constants.SPEAKER_TIPPY_TOP_METERS - Constants.SHOOTER_HINGE_ELEVATION_METERS) + y_goal_adjustment;
+    // double y_distance = (Constants.SPEAKER_OPENING_TOP + Constants.SPEAKER_TIPPY_TOP_METERS) / 2;
+
+    // double velocity = m_shooterSubsystem.getWheelSpeedMetersPerSecond();
+    // double shootAngle = Math.toDegrees(Math.atan((2 * y_distance) / (Constants.TYPICAL_SPEED * x_distance)));
+
+    double shootAngle = Math.toDegrees(Math.atan(y_distance / (x_distance)));
     SmartDashboard.putNumber("aim angle", shootAngle);
     double hingeAngle = m_subsystem.shooterAngleToHingeAngle(shootAngle);
     m_subsystem.runSetpoint(hingeAngle);

@@ -53,6 +53,8 @@ public class ScrewSubsystem extends SubsystemBase {
   }
 
   public void runSetpoint(double setpoint) {
+    // if (setpoint < Constants.HINGE_MIN_ANGLE || setpoint > Constants.HINGE_MAX_ANGLE) { return; }
+
     this.setpoint = setpoint;
     double angle = this.getHingeAngle();
     double calc = this.hingeController.calculate(angle, setpoint);
@@ -182,5 +184,7 @@ public class ScrewSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Screw Drive Rotations", screwMotor.getPosition());
     SmartDashboard.putNumber("Screw Drive Extension Inches", this.getScrewExtensionInches());
     SmartDashboard.putNumber("Hinge Absolute Encoder", hingeEncoder.getAbsolutePosition());
+
+    SmartDashboard.putNumber("Shooter Angle", this.hingeAngleToShooterAngle(hingeEncoder.getAbsolutePosition()));
   }
 }

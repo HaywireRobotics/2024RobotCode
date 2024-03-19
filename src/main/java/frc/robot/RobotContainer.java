@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AimShooter;
-import frc.robot.commands.AlignBot;
+import frc.robot.commands.AlignAmp;
+import frc.robot.commands.AlignSpeaker;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
@@ -28,6 +29,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewPercentCommand;
 import frc.robot.commands.ScrewSetpointCommand;
 import frc.robot.commands.ShootPercentCommand;
+import frc.robot.commands.ShootSetpoint;
 import frc.robot.commands.ShootWhenReady;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -119,8 +121,8 @@ public class RobotContainer {
     //   m_drivetrainSubsystem.setDriveSpeed(Constants.MAX_SPEED);
     // }));
 
-    m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
-    m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
+    // m_driveController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
+    // m_driveController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
     m_driveController.rightTrigger().onTrue(new InstantCommand(() -> {
       m_drivetrainSubsystem.setDriveSpeed(Constants.SLOW_SPEED);
@@ -138,8 +140,10 @@ public class RobotContainer {
     m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
-    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
+    // m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
+    m_manipulatorController.rightBumper().whileTrue(new ShootSetpoint(m_shooterSubsystem, 11));
+    m_manipulatorController.rightTrigger().whileTrue(new ShootSetpoint(m_shooterSubsystem, 14));
+    // m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
     m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
     m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
     m_manipulatorController.b().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.2));
@@ -151,8 +155,12 @@ public class RobotContainer {
     m_manipulatorController.povRight().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT));
     m_manipulatorController.x().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SIDE_SETPOINT));
 
-    m_driveController.povUp().whileTrue(new AimShooter(m_screwSubsystem, m_camera));
-    m_driveController.povDown().whileTrue(new AlignBot(m_drivetrainSubsystem, m_camera));
+    // m_driveController.povUp().whileTrue(new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera));
+    // m_driveController.povDown().whileTrue(new AlignAmp(m_drivetrainSubsystem, m_camera));
+    // m_driveController.povRight().whileTrue(new AlignSpeaker(m_drivetrainSubsystem, m_camera));
+
+    m_driveController.leftTrigger().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera), new AlignSpeaker(m_drivetrainSubsystem, m_camera)));
+    m_driveController.leftBumper().whileTrue(Commands.parallel(new AlignAmp(m_drivetrainSubsystem, m_camera), new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT)));
 
     // m_manipulatorController.start().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_camera), new AlignBot(m_drivetrainSubsystem, m_camera)));
   }

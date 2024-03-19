@@ -19,14 +19,14 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.util.Statics;
 
-public class AlignBot extends Command {
+public class AlignSpeaker extends Command {
   private final DrivetrainSubsystem m_subsystem;
   private final PhotonCamera m_camera;
 
   private final PIDController botRotationController = new PIDController(Constants.ROTATION_KP, Constants.ROTATION_KI, Constants.ROTATION_KD);
 
   /** Creates a new AimBot. */
-  public AlignBot(DrivetrainSubsystem subsystem, PhotonCamera camera) {
+  public AlignSpeaker(DrivetrainSubsystem subsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
     this.m_camera = camera;
 
@@ -62,7 +62,7 @@ public class AlignBot extends Command {
 
     double relativeX = centerTarget.getBestCameraToTarget().getX();
     double relativeY = centerTarget.getBestCameraToTarget().getY();
-    double rotationRelativeToBot = Math.atan(relativeY / relativeX);
+    double rotationRelativeToBot = Math.toDegrees(Math.atan(relativeY / relativeX));
     double botRotationSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
 
     double error = Statics.calculateAngleError(m_subsystem.getNavx(), botRotationSetpoint);
