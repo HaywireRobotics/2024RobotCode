@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -50,10 +51,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     private double compassOffset = 0.0;
 
     private double currentDriveSpeed = Constants.MAX_SPEED;
-
-    // used to tell when we are aligning with an AprilTag
-    public boolean aligning = false;
-    public boolean aligned = false;
     
     public DrivetrainSubsystem() {
         this.frontRight = new SwerveModule(Constants.FRONT_RIGHT_MODULE_DRIVE_MOTOR, Constants.FRONT_RIGHT_MODULE_STEER_MOTOR, 

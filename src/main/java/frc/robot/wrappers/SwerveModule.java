@@ -103,7 +103,7 @@ public class SwerveModule {
             // tries to make the error zero instead of shooting for a particular angle. Should help to avoid any
             // of the problems between -180:180 and 0:360 that we've been running into by making it so that
             // any pair of angles will go to a -180:180 error and thereafter be corrected.
-            double angleError = calculateError(this.getRotationAbsolute(), stateAngle);
+            double angleError = Statics.calculateAngleError(this.getRotationAbsolute(), stateAngle);
             double angleCalc = angleController.calculate(angleError, 0.0);
             rotationMotor.set(angleCalc);
 
@@ -169,14 +169,6 @@ public class SwerveModule {
     {
         double diff = ( angle2 - angle1 + 180 ) % 360 - 180;
         return diff < -180 ? diff + 360 : diff;
-    }
-
-    // https://www.desmos.com/calculator/yn5megahcu
-    public static double calculateError(double angle, double target) {
-        double diff = target - angle;
-        double javasStupidModuloResult = (-diff - 180) % 360;
-        if (javasStupidModuloResult < 0) javasStupidModuloResult += 360;
-        return javasStupidModuloResult - 180;
     }
 
     public SwerveModuleState getState() {

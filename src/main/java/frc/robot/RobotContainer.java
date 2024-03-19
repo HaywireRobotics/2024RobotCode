@@ -13,11 +13,13 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AimShooter;
+import frc.robot.commands.AlignBot;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
@@ -150,7 +152,9 @@ public class RobotContainer {
     m_manipulatorController.x().onTrue(new ScrewSetpointCommand(m_screwSubsystem, Constants.SIDE_SETPOINT));
 
     m_manipulatorController.start().whileTrue(new AimShooter(m_screwSubsystem, m_camera));
-    // m_manipulatorController.start().whileTrue(new ScrewSetpointCommand(m_screwSubsystem, m_screwSubsystem.shooterAngleToHingeAngle(45)));
+    m_driveController.start().whileTrue(new AlignBot(m_drivetrainSubsystem, m_camera));
+
+    // m_manipulatorController.start().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_camera), new AlignBot(m_drivetrainSubsystem, m_camera)));
   }
 
   public void disable() {

@@ -66,15 +66,21 @@ public final class Constants {
                                                                   // see https://www.swervedrivespecialties.com/products/mk4-swerve-module?variant=39376675012721
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
 
+    public static final double ROTATION_KP = 0.017;
+    public static final double ROTATION_KI = 0;
+    public static final double ROTATION_KD = 0;
+
     // CAMERA AND TARGET CONSTANTS
     public static final double CAMERA_HEIGHT_METERS = 0.6223;  // TODO: set to actual value
-    public static final double CAMERA_PITCH_RADIANS = Math.PI/2 - 0.05;
+    public static final double CAMERA_PITCH_RADIANS = Math.toRadians(30);
 
     public static final double SPEAKER_TARGET_HEIGHT_METERS = 1.368; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/Apriltag_Images_and_User_Guide.pdf
     public static final double SPEAKER_OPENING_BOTTOM = 1.985; // https://firstfrc.blob.core.windows.net/frc2024/FieldAssets/2024FieldDrawings.pdf
     public static final double SPEAKER_OPENING_TOP = 2.105;
+    public static final double SPEAKER_GOAL_X_OFFSET = 0.23;
     public static final double SPEAKER_OPENING_HEIGHT_METERS = (SPEAKER_OPENING_TOP + SPEAKER_OPENING_BOTTOM) / 2;
-    public static final int[] SPEAKER_IDS = {3, 4, 7, 8};
+    public static final int[] SPEAKER_RIGHT_IDS = {3, 7};
+    public static final int[] SPEAKER_CENTER_IDS = {4, 8};
 
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;

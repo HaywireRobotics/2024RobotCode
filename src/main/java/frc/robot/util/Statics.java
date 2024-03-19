@@ -91,4 +91,12 @@ public final class Statics {
     public static double metersPerSecondToRPM(double metersPerSecond) {
         return (metersPerSecond / (Constants.WHEEL_DIAMETER * Math.PI)) * Constants.DRIVE_MOTOR_GEAR_RATIO;
     }
+
+    // https://www.desmos.com/calculator/yn5megahcu
+    public static double calculateAngleError(double angle, double target) {
+        double diff = target - angle;
+        double javasStupidModuloResult = (-diff - 180) % 360;
+        if (javasStupidModuloResult < 0) javasStupidModuloResult += 360;
+        return javasStupidModuloResult - 180;
+    }
 }
