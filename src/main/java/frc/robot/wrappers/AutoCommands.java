@@ -4,11 +4,15 @@
 
 package frc.robot.wrappers;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
+import frc.robot.commands.AimShooter;
+import frc.robot.commands.AlignSpeaker;
 import frc.robot.commands.AutoDriveState;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewSetpointCommand;
@@ -26,14 +30,16 @@ public class AutoCommands {
   private final ScrewSubsystem m_screwSubsystem;
   private final IntakeSubsystem m_intakeSubsystem;
   private final FeederSubsystem m_feederSubsystem;
+  private final PhotonCamera m_camera;
 
   public AutoCommands(DrivetrainSubsystem drivetrainSubsystem, ShooterSubsystem shooterSubsystem,
-      ScrewSubsystem screwSubsystem, IntakeSubsystem intakeSubsystem, FeederSubsystem feederSubsystem) {
+      ScrewSubsystem screwSubsystem, IntakeSubsystem intakeSubsystem, FeederSubsystem feederSubsystem, PhotonCamera camera) {
     this.m_drivetrainSubsystem = drivetrainSubsystem;
     this.m_shooterSubsystem = shooterSubsystem;
     this.m_screwSubsystem = screwSubsystem;
     this.m_intakeSubsystem = intakeSubsystem;
     this.m_feederSubsystem = feederSubsystem;
+    this.m_camera = camera;
   }
 
   public Command ShootDrive() {
@@ -76,6 +82,16 @@ public class AutoCommands {
       this.ShootDriveIntake(),
       new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
         .withTimeout(3.5),
+      this.ShootDoNothing()
+    );
+  }
+
+  public Command TwoNoteAiming() {
+    return Commands.sequence(
+      this.ShootDriveIntake(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(3.5),
+      Commands.parallel(new AlignSpeaker(m_drivetrainSubsystem, m_camera), new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera)).withTimeout(1.5),
       this.ShootDoNothing()
     );
   }
