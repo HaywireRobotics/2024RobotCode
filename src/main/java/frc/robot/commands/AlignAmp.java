@@ -22,10 +22,14 @@ public class AlignAmp extends Command {
   private final PIDController translationController = new PIDController(Constants.TRANSLATION_KP, Constants.TRANSLATION_KI, Constants.TRANSLATION_KD);
   private final PIDController botRotationController = new PIDController(Constants.ROTATION_KP, Constants.ROTATION_KI, Constants.ROTATION_KD);
 
+  private double botAngleSetpoint;
+
   /** Creates a new AlignAmp. */
   public AlignAmp(DrivetrainSubsystem subsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
     this.m_camera = camera;
+
+    this.botAngleSetpoint = m_subsystem.getNavx();
   }
 
   // Called when the command is initially scheduled.
@@ -54,10 +58,15 @@ public class AlignAmp extends Command {
     // double botRotationSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
     // double rotationError = Statics.calculateAngleError(m_subsystem.getNavx(), botRotationSetpoint);
     // double rotationCalc = botRotationController.calculate(rotationError, 0);
-    double rotationCalc = 0;
 
-    m_subsystem.driveVector(driveSpeed, 90, rotationCalc);
-    // m_subsystem.driveArcade(calc, 0, 0);
+    botAngleSetpoint = m_subsystem.getNavx() + centerTarget.getYaw();
+    double rotationError = Statics.calculateAngleError(m_subsystem.getNavx(), botAngleSetpoint);
+    double rotationCalc = botRotationController.calculate(rotationError, 0);
+
+    double ampCentricAdjustment = -(m_subsystem.getNavx() - centerTarget.getYaw());
+    double direction = 90 + ampCentricAdjustment;
+
+    m_subsystem.driveVector(driveSpeed, direction, rotationCalc);
   }
 
   // Called once the command ends or is interrupted.
