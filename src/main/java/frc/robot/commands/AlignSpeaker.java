@@ -24,11 +24,14 @@ public class AlignSpeaker extends Command {
   private final PhotonCamera m_camera;
 
   private final PIDController botRotationController = new PIDController(Constants.ROTATION_KP, Constants.ROTATION_KI, Constants.ROTATION_KD);
+  private double botAngleSetpoint;
 
   /** Creates a new AimBot. */
   public AlignSpeaker(DrivetrainSubsystem subsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
     this.m_camera = camera;
+
+    this.botAngleSetpoint = m_subsystem.getNavx();
 
     addRequirements(subsystem);
   }
@@ -40,6 +43,8 @@ public class AlignSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    this.runSetpoint();
+
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }
 
@@ -63,9 +68,11 @@ public class AlignSpeaker extends Command {
     double relativeX = centerTarget.getBestCameraToTarget().getX();
     double relativeY = centerTarget.getBestCameraToTarget().getY();
     double rotationRelativeToBot = Math.toDegrees(Math.atan(relativeY / relativeX));
-    double botRotationSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
+    botAngleSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
+  }
 
-    double error = Statics.calculateAngleError(m_subsystem.getNavx(), botRotationSetpoint);
+  private void runSetpoint() {
+    double error = Statics.calculateAngleError(m_subsystem.getNavx(), botAngleSetpoint);
 
     double calc = botRotationController.calculate(error, 0);
     m_subsystem.driveVector(0, 0, calc);
