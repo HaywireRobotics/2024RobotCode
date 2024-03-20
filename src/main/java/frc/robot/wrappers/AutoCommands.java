@@ -89,8 +89,6 @@ public class AutoCommands {
   public Command TwoNoteAiming() {
     return Commands.sequence(
       this.ShootDriveIntake(),
-      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(3.5),
       Commands.parallel(new AlignSpeaker(m_drivetrainSubsystem, m_camera), new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera)).withTimeout(1.5),
       this.ShootDoNothing()
     );
