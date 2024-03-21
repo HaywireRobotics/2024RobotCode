@@ -49,21 +49,20 @@ public class AlignSpeaker extends Command {
     if (!result.hasTargets()) { return; }
 
     PhotonTrackedTarget centerTarget = result.getBestTarget();
-    int id = centerTarget.getFiducialId();
+    // int id = centerTarget.getFiducialId();
 
     // does nothing if the best target is not a speaker april tag
-    if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
+    // if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
 
-    // List<PhotonTrackedTarget> targets = result.getTargets();
-    // PhotonTrackedTarget centerTarget = new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
-    // for (int i = 0; i < targets.size(); i++) {
-    //   int id = targets.get(i).getFiducialId();
-    //   if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) {
-    //     centerTarget = targets.get(i);
-    //     break;
-    //   }
-    //   if (i == targets.size() - 1) { return; }
-    // }
+    List<PhotonTrackedTarget> targets = result.getTargets();
+    for (int i = 0; i < targets.size(); i++) {
+      int targetId = targets.get(i).getFiducialId();
+      if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == targetId)) {
+        centerTarget = targets.get(i);
+        break;
+      }
+      if (i == targets.size() - 1) { return; }
+    }
 
     double relativeX = centerTarget.getBestCameraToTarget().getX();
     double relativeY = centerTarget.getBestCameraToTarget().getY();

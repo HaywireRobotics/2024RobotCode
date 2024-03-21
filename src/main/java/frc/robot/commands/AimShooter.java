@@ -25,6 +25,8 @@ public class AimShooter extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
   private final PhotonCamera m_camera;
 
+  private double hingeAngleSetpoint = Constants.SPEAKER_SETPOINT;
+
   /** Creates a new AimShooter. */
   public AimShooter(ScrewSubsystem subsystem, ShooterSubsystem shooterSubsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
@@ -41,27 +43,28 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_subsystem.runSetpoint(hingeAngleSetpoint);
+
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }
 
-    PhotonTrackedTarget bestTarget = result.getBestTarget();
-    int id = bestTarget.getFiducialId();
+    PhotonTrackedTarget centerTarget = result.getBestTarget();
+    // int id = centerTarget.getFiducialId();
 
     // does nothing if the best target is not a speaker april tag
-    if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
+    // if (!IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) { return; }
 
-    // List<PhotonTrackedTarget> targets = result.getTargets();
-    // PhotonTrackedTarget centerTarget = new PhotonTrackedTarget(0, 0, 0, 0, 0, null, null, 0, null, null);
-    // for (int i = 0; i < targets.size(); i++) {
-    //   int id = targets.get(i).getFiducialId();
-    //   if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == id)) {
-    //     centerTarget = targets.get(i);
-    //     break;
-    //   }
-    //   if (i == targets.size() - 1) { return; }
-    // }
+    List<PhotonTrackedTarget> targets = result.getTargets();
+    for (int i = 0; i < targets.size(); i++) {
+      int targetId = targets.get(i).getFiducialId();
+      if (IntStream.of(Constants.SPEAKER_CENTER_IDS).anyMatch(x -> x == targetId)) {
+        centerTarget = targets.get(i);
+        break;
+      }
+      if (i == targets.size() - 1) { return; }
+    }
 
-    double range =  bestTarget.getBestCameraToTarget().getX();
+    double range =  centerTarget.getBestCameraToTarget().getX();
     double x_distance = range * Math.cos(Constants.CAMERA_PITCH_RADIANS) - Constants.SHOOTER_CAMERA_OFFSET_METERS;
 
     SmartDashboard.putNumber("distance to target meters", x_distance);
@@ -76,8 +79,7 @@ public class AimShooter extends Command {
 
     double shootAngle = Math.toDegrees(Math.atan(y_distance / (x_distance)));
     SmartDashboard.putNumber("aim angle", shootAngle);
-    double hingeAngle = m_subsystem.shooterAngleToHingeAngle(shootAngle);
-    m_subsystem.runSetpoint(hingeAngle);
+    hingeAngleSetpoint = m_subsystem.shooterAngleToHingeAngle(shootAngle);
   }
 
   // Called once the command ends or is interrupted.
