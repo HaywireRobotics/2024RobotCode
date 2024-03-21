@@ -94,7 +94,7 @@ public final class Constants {
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;
     public static final int BOTTOM_INTAKE_MOTOR_ID = 24;
-    public static final double INTAKE_SPEED = 0.7;
+    public static final double INTAKE_SPEED = 0.9;
     public static final double REVERSE_INTAKE_SPEED = -0.3;
 
     // SHOOTER CONSTANTS
