@@ -147,7 +147,7 @@ public class RobotContainer {
     // m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
     m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
     m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
-    m_manipulatorController.b().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.2));
+    m_manipulatorController.b().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.3));
 
     m_manipulatorController.povDown().whileTrue(new ScrewPercentCommand(m_screwSubsystem, Constants.SCREW_SPEED));
     m_manipulatorController.povUp().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -Constants.SCREW_SPEED));
