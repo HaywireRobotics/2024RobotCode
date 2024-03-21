@@ -94,8 +94,8 @@ public final class Constants {
     // INTAKE CONSTANTS
     public static final int TOP_INTAKE_MOTOR_ID = 15;
     public static final int BOTTOM_INTAKE_MOTOR_ID = 24;
-    public static final double INTAKE_SPEED = 0.5;
-    public static final double REVERSE_INTAKE_SPEED = -0.2;
+    public static final double INTAKE_SPEED = 0.7;
+    public static final double REVERSE_INTAKE_SPEED = -0.3;
 
     // SHOOTER CONSTANTS
     public static final int SHOOT_MOTOR_ID = 5;
@@ -112,8 +112,8 @@ public final class Constants {
 
     // FEEDER CONSTANTS
     public static final int FEEDER_MOTOR_ID = 27;
-    public static final double FEEDER_SPEED = 0.5;
-    public static final double FEEDER_REVERSE_SPEED = -0.2;
+    public static final double FEEDER_SPEED = 0.7;
+    public static final double FEEDER_REVERSE_SPEED = -0.3;
 
     // SCREW ACTUATOR CONSTANTS
     public static final int SCREW_MOTOR_ID = 21;
