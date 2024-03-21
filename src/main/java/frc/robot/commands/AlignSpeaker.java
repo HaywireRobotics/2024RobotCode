@@ -31,14 +31,14 @@ public class AlignSpeaker extends Command {
     this.m_subsystem = subsystem;
     this.m_camera = camera;
 
-    this.botAngleSetpoint = m_subsystem.getNavx();
-
     addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    this.botAngleSetpoint = m_subsystem.getNavx();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -163,6 +163,8 @@ public class RobotContainer {
     m_driveController.leftTrigger().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera), new AlignSpeaker(m_drivetrainSubsystem, m_camera)));
     m_driveController.leftBumper().whileTrue(Commands.parallel(new AlignAmp(m_drivetrainSubsystem, m_camera), new ScrewSetpointCommand(m_screwSubsystem, Constants.AMP_SETPOINT)));
 
+    m_driveController.povUp().whileTrue(new AlignSpeaker(m_drivetrainSubsystem, m_camera));
+    
     // m_manipulatorController.start().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_camera), new AlignBot(m_drivetrainSubsystem, m_camera)));
   }
 
