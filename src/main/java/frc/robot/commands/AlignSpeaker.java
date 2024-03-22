@@ -45,7 +45,7 @@ public class AlignSpeaker extends Command {
   @Override
   public void execute() {
     SmartDashboard.putNumber("setpoint", botAngleSetpoint);
-    this.runSetpoint();
+    m_subsystem.runAngleSetpoint(botAngleSetpoint);
 
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }
@@ -68,16 +68,17 @@ public class AlignSpeaker extends Command {
 
     double relativeX = centerTarget.getBestCameraToTarget().getX();
     double relativeY = centerTarget.getBestCameraToTarget().getY();
-    double rotationRelativeToBot = Math.toDegrees(Math.atan(relativeY / relativeX));
+    double rotationRelativeToBot = -Math.toDegrees(Math.atan(relativeY / relativeX));
+    SmartDashboard.putNumber("angle relative to bot", rotationRelativeToBot);
     botAngleSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
   }
 
-  private void runSetpoint() {
-    double error = Statics.calculateAngleError(m_subsystem.getNavx(), botAngleSetpoint);
+  // private void runSetpoint() {
+  //   double error = Statics.calculateAngleError(m_subsystem.getNavx(), botAngleSetpoint);
 
-    double calc = botRotationController.calculate(error, 0);
-    m_subsystem.driveVector(0, 0, calc);
-  }
+  //   double calc = botRotationController.calculate(error, 0);
+  //   m_subsystem.driveVector(0, 0, calc);
+  // }
 
   // Called once the command ends or is interrupted.
   @Override

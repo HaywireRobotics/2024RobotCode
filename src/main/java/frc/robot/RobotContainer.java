@@ -22,6 +22,7 @@ import frc.robot.commands.AimShooter;
 import frc.robot.commands.AlignAmp;
 import frc.robot.commands.AlignSpeaker;
 import frc.robot.commands.AutoDriveState;
+import frc.robot.commands.BotAngleSetpoint;
 import frc.robot.commands.DefaultClimbCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.FeedCommand;
@@ -147,7 +148,7 @@ public class RobotContainer {
     // m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
     m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
     m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
-    m_manipulatorController.b().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.3));
+    m_manipulatorController.b().whileTrue(new ShootSetpoint(m_shooterSubsystem, 5.5));
 
     m_manipulatorController.povDown().whileTrue(new ScrewPercentCommand(m_screwSubsystem, Constants.SCREW_SPEED));
     m_manipulatorController.povUp().whileTrue(new ScrewPercentCommand(m_screwSubsystem, -Constants.SCREW_SPEED));
@@ -165,6 +166,8 @@ public class RobotContainer {
 
     m_driveController.povUp().whileTrue(new AlignSpeaker(m_drivetrainSubsystem, m_camera));
     m_driveController.povDown().whileTrue(new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera));
+
+    m_driveController.povLeft().whileTrue(new BotAngleSetpoint(m_drivetrainSubsystem, 30));
     
     // m_manipulatorController.start().whileTrue(Commands.parallel(new AimShooter(m_screwSubsystem, m_camera), new AlignBot(m_drivetrainSubsystem, m_camera)));
   }

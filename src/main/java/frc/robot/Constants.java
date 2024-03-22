@@ -31,9 +31,9 @@ public final class Constants {
      */
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.48895;
 
-    public static final int MAX_SPEED = 9000;
+    public static final int MAX_SPEED = 11000;
     public static final int SLOW_SPEED = 5000;
-    public static final int HYPER_SPEED = 11000;
+    public static final int HYPER_SPEED = 13000;
     // public static final int TRUE_MAX_SPEED = 13000; // actual max speed it is capable of???
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
@@ -51,13 +51,13 @@ public final class Constants {
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 9; 
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 6; 
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 11; 
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -0.189 + 0.25;
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -0.190 + 0.25;  //-0.189
     public static final boolean BACK_LEFT_REVERSE_DRIVE = true;
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 2; 
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR =  17; 
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 12;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 0.356 + 0.25;
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = 0.349 + 0.25;  // 0.356
     public static final boolean BACK_RIGHT_REVERSE_DRIVE = true;
 
     public static final double STEER_MOTOR_GEAR_RATIO = 12.8 / 1;

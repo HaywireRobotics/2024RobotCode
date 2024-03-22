@@ -33,6 +33,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public SwerveModuleState backRightState = new SwerveModuleState(0, Rotation2d.fromDegrees(backRightDefault));
     public SwerveModuleState backLeftState = new SwerveModuleState(0, Rotation2d.fromDegrees(backLeftDefault));
 
+    private final PIDController botRotationController = new PIDController(Constants.ROTATION_KP, Constants.ROTATION_KI, Constants.ROTATION_KD);
+
     // public ADXRS450_Gyro m_gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
     public AHRS navx = new AHRS(SPI.Port.kMXP);
 
@@ -90,6 +92,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         setFrontLeft(state);
         setBackRight(state);
         setBackLeft(state);
+    }
+
+    public void runAngleSetpoint(double angleSetpoint) {
+        double error = Statics.calculateAngleError(this.getNavx(), angleSetpoint);
+    
+        double calc = -botRotationController.calculate(error, 0);
+        this.driveVector(0, 0, calc);
     }
 
     // public void resetGyroscope() {

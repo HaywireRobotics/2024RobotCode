@@ -58,15 +58,23 @@ public class AlignAmp extends Command {
     // double botRotationSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
     // double rotationError = Statics.calculateAngleError(m_subsystem.getNavx(), botRotationSetpoint);
     // double rotationCalc = botRotationController.calculate(rotationError, 0);
-
-    botAngleSetpoint = m_subsystem.getNavx() + centerTarget.getYaw();
+    // double rotationZ = centerTarget.getBestCameraToTarget().getRotation().getZ();
+    // double relativeToBot;
+    // if (rotationZ <= 0) {
+    //   relativeToBot = -180 - rotationZ;
+    // } else {
+    //   relativeToBot = 180 - rotationZ;
+    // }
+    double relativeToBot = -Statics.calculateAngleError(centerTarget.getBestCameraToTarget().getRotation().getZ(), 0);  // to account for strange results
+    botAngleSetpoint = m_subsystem.getNavx() + relativeToBot;
     double rotationError = Statics.calculateAngleError(m_subsystem.getNavx(), botAngleSetpoint);
     double rotationCalc = botRotationController.calculate(rotationError, 0);
 
-    double ampCentricAdjustment = -(m_subsystem.getNavx() - centerTarget.getYaw());
+    double ampCentricAdjustment = -(m_subsystem.getNavx() + relativeToBot);
     double direction = 90 + ampCentricAdjustment;
 
     m_subsystem.driveVector(driveSpeed, direction, rotationCalc);
+    // m_subsystem.driveVector(0, 0, rotationCalc);
   }
 
   // Called once the command ends or is interrupted.
