@@ -86,8 +86,8 @@ public final class Constants {
     public static final double SPEAKER_GOAL_X_OFFSET = 0.23;
     public static final double SPEAKER_OPENING_HEIGHT_METERS = (SPEAKER_OPENING_TOP + SPEAKER_OPENING_BOTTOM) / 2;
     public static final double SPEAKER_TIPPY_TOP_METERS = 2.489;
-    public static final int[] SPEAKER_RIGHT_IDS = {3, 7};
-    public static final int[] SPEAKER_CENTER_IDS = {4, 8};
+    public static final int[] SPEAKER_RIGHT_IDS = {3, 8};
+    public static final int[] SPEAKER_CENTER_IDS = {4, 7};
     
     public static final int[] AMP_IDS = {5, 6};
 
