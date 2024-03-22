@@ -66,7 +66,7 @@ public final class Constants {
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75 / 1;
     public static final double WHEEL_DIAMETER = 0.1016; // 4 inches
 
-    public static final double ROTATION_KP = 0.012;
+    public static final double ROTATION_KP = 0.02;
     public static final double ROTATION_KI = 0;
     public static final double ROTATION_KD = 0.001;
 

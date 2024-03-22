@@ -89,7 +89,12 @@ public class RobotContainer {
     m_autoChooser.addOption("Two Note Drive Again", m_autoCommands.TwoNoteDriveOut());
     m_autoChooser.addOption("Two Note Aiming", m_autoCommands.TwoNoteAiming());
     m_autoChooser.addOption("Your Mother", new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
+    m_autoChooser.addOption("Shoot Drive Angle Positive", m_autoCommands.ShootAngleDrivePositive());
+    m_autoChooser.addOption("Shoot Drive Angle Negative", m_autoCommands.ShootAngleDriveNegative());
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
+
+    SmartDashboard.putBoolean("Align Is Ready", false);
+    SmartDashboard.putBoolean("Shoot Is Ready", false);
 
     CameraServer.startAutomaticCapture(0);
     CameraServer.startAutomaticCapture(1);

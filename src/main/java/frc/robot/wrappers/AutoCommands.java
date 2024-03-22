@@ -14,6 +14,7 @@ import frc.robot.Constants;
 import frc.robot.commands.AimShooter;
 import frc.robot.commands.AlignSpeaker;
 import frc.robot.commands.AutoDriveState;
+import frc.robot.commands.BotAngleSetpoint;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ScrewSetpointCommand;
 import frc.robot.commands.ShootWhenReady;
@@ -53,6 +54,27 @@ public class AutoCommands {
     return Commands.sequence(
         new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
         new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 0.6).withTimeout(2));
+  }
+
+  public Command ShootAngleDrivePositive() {
+    return Commands.sequence(
+      this.ShootDoNothing(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(0.6),
+      new BotAngleSetpoint(m_drivetrainSubsystem, 35).withTimeout(1),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(2)
+    );
+  }
+  public Command ShootAngleDriveNegative() {
+    return Commands.sequence(
+      this.ShootDoNothing(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(0.6),
+      new BotAngleSetpoint(m_drivetrainSubsystem, -35).withTimeout(1),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(2)
+    );
   }
 
   public Command DriveOnly() {

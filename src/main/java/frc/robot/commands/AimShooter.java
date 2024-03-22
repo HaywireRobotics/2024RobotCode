@@ -44,6 +44,7 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
     m_subsystem.runSetpoint(hingeAngleSetpoint);
+    SmartDashboard.putBoolean("Shoot Is Ready", m_subsystem.isReady());
 
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }

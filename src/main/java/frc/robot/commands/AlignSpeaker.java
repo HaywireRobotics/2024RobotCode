@@ -27,6 +27,8 @@ public class AlignSpeaker extends Command {
   private final PIDController botRotationController = new PIDController(Constants.ROTATION_KP, Constants.ROTATION_KI, Constants.ROTATION_KD);
   private double botAngleSetpoint;
 
+  private double ambiguity = 1;
+
   /** Creates a new AimBot. */
   public AlignSpeaker(DrivetrainSubsystem subsystem, PhotonCamera camera) {
     this.m_subsystem = subsystem;
@@ -39,13 +41,15 @@ public class AlignSpeaker extends Command {
   @Override
   public void initialize() {
     this.botAngleSetpoint = m_subsystem.getNavx();
+    this.ambiguity = 1;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("setpoint", botAngleSetpoint);
     m_subsystem.runAngleSetpoint(botAngleSetpoint);
+    SmartDashboard.putNumber("setpoint", botAngleSetpoint);
+    SmartDashboard.putBoolean("Align Is Ready", this.isReady());
 
     var result = m_camera.getLatestResult();
     if (!result.hasTargets()) { return; }
@@ -66,11 +70,22 @@ public class AlignSpeaker extends Command {
       if (i == targets.size() - 1) { return; }
     }
 
+    if (centerTarget.getPoseAmbiguity() < this.ambiguity) {
+      this.ambiguity = centerTarget.getPoseAmbiguity();
+    } else {
+      return;
+    }
+
     double relativeX = centerTarget.getBestCameraToTarget().getX();
     double relativeY = centerTarget.getBestCameraToTarget().getY();
     double rotationRelativeToBot = -Math.toDegrees(Math.atan(relativeY / relativeX));
     SmartDashboard.putNumber("angle relative to bot", rotationRelativeToBot);
     botAngleSetpoint = m_subsystem.getNavx() + rotationRelativeToBot;
+  }
+
+  private boolean isReady() {
+    double error = botAngleSetpoint - m_subsystem.getNavx();
+    return Statics.withinError(error, 0, 2);
   }
 
   // private void runSetpoint() {
