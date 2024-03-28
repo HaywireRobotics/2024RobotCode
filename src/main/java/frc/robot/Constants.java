@@ -31,9 +31,9 @@ public final class Constants {
      */
     // public static final double DRIVETRAIN_WHEELBASE_METERS = 0.48895;
 
-    public static final int MAX_SPEED = 11000;
-    public static final int SLOW_SPEED = 5000;
-    public static final int HYPER_SPEED = 13000;
+    public static final int MAX_SPEED = 12000;
+    public static final int SLOW_SPEED = 6000;
+    public static final int HYPER_SPEED = 15000;
     // public static final int TRUE_MAX_SPEED = 13000; // actual max speed it is capable of???
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 8;
@@ -100,9 +100,9 @@ public final class Constants {
     // SHOOTER CONSTANTS
     public static final int SHOOT_MOTOR_ID = 5;
 
-    public static final double SHOOTER_KP = 0.0007;
+    public static final double SHOOTER_KP = 0.00075;
     public static final double SHOOTER_KI = 0.0;
-    public static final double SHOOTER_KD = 0.00001;
+    public static final double SHOOTER_KD = 0.002;
 
     public static final double SHOOT_MARGIN_OF_ERROR = 50.0;
     public static final double SHOOTER_GEAR_RATIO = 18 / 14;
@@ -112,7 +112,7 @@ public final class Constants {
 
     // FEEDER CONSTANTS
     public static final int FEEDER_MOTOR_ID = 27;
-    public static final double FEEDER_SPEED = 0.7;
+    public static final double FEEDER_SPEED = 0.9;
     public static final double FEEDER_REVERSE_SPEED = -0.3;
 
     // SCREW ACTUATOR CONSTANTS
@@ -143,7 +143,7 @@ public final class Constants {
     public static final double SHOOTER_HINGE_X = 4;
 
     public static final double SPEAKER_SETPOINT = 0.526;
-    public static final double AMP_SETPOINT = 0.524;
+    public static final double AMP_SETPOINT = 0.513;
     public static final double SIDE_SETPOINT = 0.527;
   
     public static final double HINGE_SHOOTER_M = -434.053;
@@ -158,5 +158,5 @@ public final class Constants {
     public static final double PULLEY_CIRCUMFERENCE = PULLEY_DIAMETER * Math.PI;
     public static final double CLIMBER_GEAR_RATIO = 45/1;
 
-    public static final double CLIMBER_SPEED = 0.5;
+    public static final double CLIMBER_SPEED = 0.8;
   }

@@ -80,8 +80,8 @@ public class RobotContainer {
 
     // m_camera.setLED(VisionLEDMode.kOff);
 
-    m_autoChooser.setDefaultOption("Shoot Then Drive", m_autoCommands.ShootDrive());
-    m_autoChooser.addOption("Shoot Do Nothing", m_autoCommands.ShootDoNothing());
+    m_autoChooser.setDefaultOption("Shoot Do Nothing", m_autoCommands.ShootDoNothing());
+    m_autoChooser.addOption("Shoot Then Drive", m_autoCommands.ShootDrive());
     m_autoChooser.addOption("Autobots Role Out", m_autoCommands.DriveOnly());
     m_autoChooser.addOption("Drive With Intake", m_autoCommands.DriveWithIntake());
     m_autoChooser.addOption("Shoot Drive Intake", m_autoCommands.ShootDriveIntake());
@@ -91,13 +91,14 @@ public class RobotContainer {
     m_autoChooser.addOption("Your Mother", new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT));
     m_autoChooser.addOption("Shoot Drive Angle Positive", m_autoCommands.ShootAngleDrivePositive());
     m_autoChooser.addOption("Shoot Drive Angle Negative", m_autoCommands.ShootAngleDriveNegative());
+    m_autoChooser.addOption("Two Note Angle Positive", m_autoCommands.TwoNoteAnglePositive());
+    m_autoChooser.addOption("Two Note Angle Negative", m_autoCommands.TwoNoteAngleNegative());
     SmartDashboard.putData("Auto Chooser", m_autoChooser);
 
     SmartDashboard.putBoolean("Align Is Ready", false);
     SmartDashboard.putBoolean("Shoot Is Ready", false);
 
-    CameraServer.startAutomaticCapture(0);
-    CameraServer.startAutomaticCapture(1);
+    // CameraServer.startAutomaticCapture(0);
 
     // Configure the trigger bindings
     configureBindings();
@@ -147,10 +148,10 @@ public class RobotContainer {
     m_manipulatorController.leftBumper().whileTrue(new IntakeCommand(m_intakeSubsystem));
     m_manipulatorController.leftTrigger().whileTrue(new IntakeCommand(m_intakeSubsystem, true));
 
-    // m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
-    m_manipulatorController.rightBumper().whileTrue(new ShootSetpoint(m_shooterSubsystem, 11));
-    m_manipulatorController.rightTrigger().whileTrue(new ShootSetpoint(m_shooterSubsystem, 14));
-    // m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.8));
+    m_manipulatorController.rightBumper().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.5));
+    // m_manipulatorController.rightBumper().whileTrue(new ShootSetpoint(m_shooterSubsystem, 11));
+    // m_manipulatorController.rightTrigger().whileTrue(new ShootSetpoint(m_shooterSubsystem, 14));
+    m_manipulatorController.rightTrigger().whileTrue(new ShootPercentCommand(m_shooterSubsystem, 0.9));
     m_manipulatorController.y().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem));
     m_manipulatorController.a().whileTrue(new FeedCommand(m_feederSubsystem, m_intakeSubsystem, true));
     m_manipulatorController.b().whileTrue(new ShootSetpoint(m_shooterSubsystem, 5.5));

@@ -53,35 +53,47 @@ public class AutoCommands {
   public Command ShootDoNothing() {
     return Commands.sequence(
         new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
-        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 0.6).withTimeout(2));
+        new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 0.6).withTimeout(1.5));
   }
 
   public Command ShootAngleDrivePositive() {
-    return Commands.sequence(
-      this.ShootDoNothing(),
-      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(0.6),
-      new BotAngleSetpoint(m_drivetrainSubsystem, 35).withTimeout(1),
-      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(2)
-    );
+    return this.ShootAngleDrive(62);
   }
   public Command ShootAngleDriveNegative() {
+    return this.ShootAngleDrive(-62);
+  }
+  public Command ShootAngleDrive(double angle) {
     return Commands.sequence(
       this.ShootDoNothing(),
       new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(0.6),
-      new BotAngleSetpoint(m_drivetrainSubsystem, -35).withTimeout(1),
-      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(2)
+        .withTimeout(0.3),
+      new BotAngleSetpoint(m_drivetrainSubsystem, angle).withTimeout(1),
+      this.DriveWithIntake()
     );
+  }
+
+  public Command TwoNoteAngle(double angle) {
+    return Commands.sequence(
+      this.ShootAngleDrive(angle),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(0.5),
+      Commands.parallel(new AlignSpeaker(m_drivetrainSubsystem, m_camera), new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera)).withTimeout(2.5),
+      new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 1.0).withTimeout(2.5)
+    );
+  }
+
+  public Command TwoNoteAnglePositive() {
+    return this.TwoNoteAngle(62);
+  }
+  public Command TwoNoteAngleNegative() {
+    return this.TwoNoteAngle(-62);
   }
 
   public Command DriveOnly() {
     return Commands.parallel(
       new ScrewSetpointCommand(m_screwSubsystem, Constants.SPEAKER_SETPOINT),
       new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(4000, Rotation2d.fromDegrees(180.0)))
-        .withTimeout(2.7)
+        .withTimeout(2.6)
         );
   }
 
@@ -89,7 +101,7 @@ public class AutoCommands {
     return Commands.parallel(
       new IntakeCommand(m_intakeSubsystem),
       this.DriveOnly()
-    ).withTimeout(4);
+    ).withTimeout(3.2);
   }
 
   public Command ShootDriveIntake() {
@@ -111,8 +123,10 @@ public class AutoCommands {
   public Command TwoNoteAiming() {
     return Commands.sequence(
       this.ShootDriveIntake(),
+      new AutoDriveState(m_drivetrainSubsystem, new SwerveModuleState(-4000, Rotation2d.fromDegrees(180.0)))
+        .withTimeout(0.5),
       Commands.parallel(new AlignSpeaker(m_drivetrainSubsystem, m_camera), new AimShooter(m_screwSubsystem, m_shooterSubsystem, m_camera)).withTimeout(2.5),
-      new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 0.8).withTimeout(2.5)
+      new ShootWhenReady(m_shooterSubsystem, m_feederSubsystem, m_intakeSubsystem, 1.0).withTimeout(2.5)
     );
   }
 

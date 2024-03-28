@@ -70,7 +70,7 @@ public class AimShooter extends Command {
 
     SmartDashboard.putNumber("distance to target meters", x_distance);
 
-    double y_goal_adjustment = Statics.clamp((x_distance - 1.7*1.285) * 0.5, 0, 1);
+    double y_goal_adjustment = Statics.clamp((x_distance - 1.8*1.285) * 0.5, 0, 1);
     SmartDashboard.putNumber("goal adjustment", y_goal_adjustment);
     // double y_distance = (Constants.SPEAKER_TIPPY_TOP_METERS - Constants.SHOOTER_HINGE_ELEVATION_METERS) + y_goal_adjustment;
     double y_distance = ((Constants.SPEAKER_TIPPY_TOP_METERS + Constants.SPEAKER_OPENING_TOP)/2 - Constants.SHOOTER_HINGE_ELEVATION_METERS) + y_goal_adjustment;
